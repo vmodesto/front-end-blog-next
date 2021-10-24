@@ -1,0 +1,79 @@
+.container {
+  width: 50%;
+  padding: 1rem;
+  border-bottom: 1px #ced4da solid;
+
+  :last-child {
+    border: none;
+  }
+
+  .authorImage {
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    :first-child {
+      margin-right: 10px;
+    }
+  }
+
+  .introduction {
+    display: flex;
+    :first-child {
+      margin-right: 10px;
+    }
+    .postImage {
+      width: 250px;
+      height: 150px;
+    }
+
+    .introductionText {
+      display: flex;
+      flex-direction: column;
+      h1 {
+        margin: 0;
+      }
+    }
+    @media screen and (max-width: 600px) {
+      .postImage {
+        width: 200px;
+        height: 100px;
+      }
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    div {
+      margin-right: 10px;
+      display: flex;
+      flex-direction: row;
+      
+    }
+    h5 {
+      text-align: end;
+      font-weight: inherit;
+    }
+    @media screen and (max-width: 500px) {
+      div {
+        margin-top: 10px;
+        &:first-child{
+          margin-top: 0;
+        }
+
+        flex-direction: column;
+      }
+      flex-direction: column;
+    }
+  }
+
+}
