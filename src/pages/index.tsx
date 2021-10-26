@@ -22,11 +22,13 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     api.get('api/articles').then(function (response: any){
+      console.log(response.data.articles)
       const data: ArticleProps[] = response.data.articles;
       setArticles(data)
     })
   },[]);
-
+  console.log('articles var:')
+  console.log(articles)
   return (
     <>
     <Header/>

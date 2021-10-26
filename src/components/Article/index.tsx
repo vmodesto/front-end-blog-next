@@ -19,7 +19,7 @@ export function Article({authorId, authorName, authorImage, image, title, descri
       </div>
       <div className={styles.info}>
         <div>
-          {topics.map((topic, index) => <ContentType key={index} name={topic}/>)}
+          {/* {topics.map((topic, index) => <ContentType type="topic" key={index} name={topic}/>)} */}
         </div>
         <h5>{date}</h5>
       </div>

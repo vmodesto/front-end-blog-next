@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from '../../../styles/NewArticle.module.scss';
 import { ArticleProps } from '../../pages';
 import { ContentType, ContentTypeProps } from '../ContentType';
@@ -5,9 +6,12 @@ import { ContentType, ContentTypeProps } from '../ContentType';
 interface StepOneProps {
   openModal: () => void
   articleTopics: ContentTypeProps[]
+  title: string
+  handleTitleChange: (e: React.FormEvent<HTMLInputElement>) => void
 }
 
-export function StepOne({openModal, articleTopics}: StepOneProps) {
+export function StepOne({title, handleTitleChange, openModal, articleTopics}: StepOneProps) {
+  console.log(title)
   return (
     <>
     <div className={styles.stepOne}>
@@ -15,15 +19,20 @@ export function StepOne({openModal, articleTopics}: StepOneProps) {
           <input
             className={styles.input}
             placeholder="Title"
+            value={title}
+            onChange={handleTitleChange}
           />
           <div className={styles.topics}>
             <div className={styles.chooseTopics}>
               <button onClick={openModal}>Add</button>
               <small className={styles.customSmall}>Choose one topic or more...</small>
             </div>
-            <div className={styles.contentType}>
-              {articleTopics.map((topic) => <div className={styles.marginItems}><ContentType name={topic.name}/></div>)}
-            </div>
+            {articleTopics.length !== 0 && <div className={styles.contentType}>
+              {articleTopics.map((topic) => 
+              <div key={topic.id} className={styles.marginItems}>
+                  <ContentType type="topic" name={topic.name}/>
+              </div>)}
+            </div>}
           </div>
         </div>
     </>

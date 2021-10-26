@@ -1,12 +1,13 @@
 import React from 'react';
-import styles from './styles/Topic.module.scss'
-
+import styles from './styles/Topic.module.scss';
 export interface ContentTypeProps {
+  id?: string,
   name: string
+  type?: string,
 }
 
-export function ContentType(props: ContentTypeProps){
+export function ContentType({name, type}: ContentTypeProps){
   return <div className={styles.container}>
-    <h5>#{props.name}</h5>
+    { type === "topic" ? <h5>#{name}</h5> : <h5>{name}</h5>}
   </div>
 }

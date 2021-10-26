@@ -6,11 +6,15 @@
   flex-direction: column;
   align-items: center;
 
-  .stepOne {
+  .stepOne, .stepTwo {
+    align-items: center;
     width: 30%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+  }
+
+  .stepOne {
+    
     .topics {
       width: 100%;
       margin: 1rem;
@@ -41,6 +45,7 @@
       }
     }
   }
+
   input {
     width: 100%;
     padding: 1rem 10px;
@@ -134,4 +139,30 @@
   display:  flex;
   justify-content: space-between;
   align-content: space-between;
+}
+
+.contentContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .stepThree {
+    display: flex;
+    .title {
+      color: #14213D;
+      padding-bottom: 1rem;
+   }
+    div {
+      padding-right: 1rem;
+      margin: 0 1rem;
+      .editor {
+        border: none;
+        outline: none;
+        resize: none;
+        border-right: 1px solid #E5E5E5;
+      }
+    }
+  }
+  .pageButtons {
+    align-self: center;
+  }
 }

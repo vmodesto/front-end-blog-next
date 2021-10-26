@@ -1,13 +1,12 @@
-import { randomInt } from "crypto";
-import { createServer, Model } from "miragejs";
+import { createServer, hasMany, Model } from "miragejs";
 
 export function makeServer({ environmnet = "dvelopment"} = {}) {
     let server = createServer({
     environment: environmnet,
 
     models: {
-      article: Model,
-      topic: Model,
+      article: Model.extend({topics: hasMany()}),
+      topic: Model.extend({articles: hasMany()}),
       course: Model,
     },
 
@@ -19,7 +18,7 @@ export function makeServer({ environmnet = "dvelopment"} = {}) {
       image: "https://miro.medium.com/max/1200/0*zVoTpIjc8BMOD7-i.png",
       title: "Desenvolvendo com react",
       description: "Nesse artigo dou uma breve introdução sobre como funciona o react",
-      topics: ["computação", "matematica"],
+      topics: [],
       date: "22/10/21"
       }),
 
@@ -30,26 +29,32 @@ export function makeServer({ environmnet = "dvelopment"} = {}) {
         image: "https://miro.medium.com/max/1200/0*zVoTpIjc8BMOD7-i.png",
         title: "Desenvolvendo com react",
         description: "Nesse artigo dou uma breve introdução sobre como funciona o react",
-        topics: ["computação", "matematica"],
+        topics: [],
         date: "22/10/21"
         }),
-      server.create('topic', {
-        name: "redes",
-      })
-      server.create('topic', {
-        name: "operational system",
-      })
-      server.create('topic', {
-        name: "api",
-      })
       server.create('course', {
+        id: "1",
         name: "computação",
       })
       server.create('course', {
+        id: "2",
         name: "matematica",
       })
       server.create('course', {
+        id: "3",
         name: "física",
+      })
+      server.create('topic', {
+        id: "1",
+        name: "redes",
+      })
+      server.create('topic', {
+        id: "2",
+        name: "api",
+      })
+      server.create('topic', {
+        id: "3",
+        name: "operational system",
       })
     },
 
@@ -62,6 +67,11 @@ export function makeServer({ environmnet = "dvelopment"} = {}) {
         });
         this.get("/topics", (schema) => { return schema.topics.all();
         });
+
+        this.post("/articles", (schema, request) => {
+          let attrs = JSON.parse(request.requestBody);
+          return schema.article.create(attrs);
+        })
 
 
         this.post('users/login', () => {
