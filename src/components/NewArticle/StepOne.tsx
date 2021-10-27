@@ -1,39 +1,68 @@
-import React from 'react';
 import styles from '../../../styles/NewArticle.module.scss';
-import { ArticleProps } from '../../pages';
+import { AiFillCloseCircle } from "react-icons/ai";
 import { ContentType, ContentTypeProps } from '../ContentType';
 
 interface StepOneProps {
-  openModal: () => void
-  articleTopics: ContentTypeProps[]
-  title: string
-  handleTitleChange: (e: React.FormEvent<HTMLInputElement>) => void
+  openModal: () => void,
+  articleTopics: ContentTypeProps[],
+  titleErrorMessage: string,
+  topicErrorMessage: string,
+  title: string,
+  handleTitleChange: (e: React.FormEvent<HTMLInputElement>) => void,
+  handleArticleTopicDeletion: (topicId: any) => void,
 }
 
-export function StepOne({title, handleTitleChange, openModal, articleTopics}: StepOneProps) {
-  console.log(title)
+export function StepOne({
+  title,
+  titleErrorMessage,
+  topicErrorMessage,
+  handleTitleChange,
+  openModal,
+  articleTopics,
+  handleArticleTopicDeletion
+  }: StepOneProps) {
   return (
     <>
     <div className={styles.stepOne}>
           <h2>Step One</h2>
+          <p>Add a title and one or more topics to your article!</p>
           <input
             className={styles.input}
             placeholder="Title"
             value={title}
             onChange={handleTitleChange}
           />
+            {
+            titleErrorMessage !== '' && 
+            <small
+              className={styles.errorMessage}>{titleErrorMessage}
+            </small>}
           <div className={styles.topics}>
             <div className={styles.chooseTopics}>
               <button onClick={openModal}>Add</button>
-              <small className={styles.customSmall}>Choose one topic or more...</small>
+              <small
+                className={styles.customSmall}
+              >
+              Choose one topic or more...
+              </small>
             </div>
             {articleTopics.length !== 0 && <div className={styles.contentType}>
               {articleTopics.map((topic) => 
               <div key={topic.id} className={styles.marginItems}>
-                  <ContentType type="topic" name={topic.name}/>
+                <ContentType type="topic" name={topic.name}/>
+                <AiFillCloseCircle
+                  className={styles.removeTopicButton}
+                  id={topic.id}
+                  onClick={handleArticleTopicDeletion}
+                />
               </div>)}
             </div>}
           </div>
+          {
+            topicErrorMessage !== '' && 
+            <small
+              className={styles.errorMessage}>{topicErrorMessage}
+            </small>}
         </div>
     </>
   )

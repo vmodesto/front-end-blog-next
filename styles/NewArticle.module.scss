@@ -1,5 +1,3 @@
-
-
 .container {
   padding-top: 2rem;
   display: flex;
@@ -14,7 +12,6 @@
   }
 
   .stepOne {
-    
     .topics {
       width: 100%;
       margin: 1rem;
@@ -46,30 +43,31 @@
     }
   }
 
+  .stepTwo {
+    input {
+      cursor: pointer;
+    }
+
+    ::-webkit-file-upload-button {
+      cursor: pointer;
+      font-weight: bold;
+      background: none;
+      border: none;
+      border-right: 1px black solid;
+      
+    }
+  }
+
   input {
     width: 100%;
     padding: 1rem 10px;
     border-radius: 5px;
     border: 1px black solid;
+    font-size: 1rem;
   }
 
-  .nextButton {
-    margin-top: 2rem;
-    background: #fca311;
-    border: none;
-    text-align: center;
-    width: 150px;
-    height: 40px;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
+  textarea {
     font-size: 1rem;
-    cursor: pointer;
-    transition: filter 0.2s;
-
-    &:hover {
-      filter: brightness(0.9);
-    }
   }
 }
 
@@ -106,7 +104,13 @@
   display: flex;
 }
 .marginItems {
-  margin-right: 5px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  .removeTopicButton {
+    margin-left: 5px;
+    cursor: pointer;
+  }
 }
 
 .nextButton {
@@ -135,6 +139,7 @@
 }
 
 .pageButtons {
+  margin-top: 1rem;
   width: 30%;
   display:  flex;
   justify-content: space-between;
@@ -145,24 +150,63 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  .header {
+      text-align: center;
+      .title {
+        padding-bottom: 1rem;
+      }
+  }
   .stepThree {
+    width: 100%;
+    height: 500px;
     display: flex;
-    .title {
+
+    .type {
+      text-align: center;
       color: #14213D;
       padding-bottom: 1rem;
    }
+    .border {
+      border-right: 1px solid #E5E5E5;
+    }
+
     div {
       padding-right: 1rem;
       margin: 0 1rem;
+      
+    }
+    .editorGroup {
+      width: 50%;
       .editor {
+        height: 80%;
+        width: 100%;
         border: none;
         outline: none;
         resize: none;
-        border-right: 1px solid #E5E5E5;
+      }
+    }
+    .markdownGroup {
+      width: 50%;
+      .markdown {
+        height: 80%;
+        overflow-y: scroll;
       }
     }
   }
   .pageButtons {
     align-self: center;
+    margin-bottom: 1rem;
   }
+  .errorMessage {
+    text-align: center;
+  }
+}
+
+.errorMessage {
+  margin-top: 1rem;
+  color: red;
+}
+
+.loader {
+  padding: auto;
 }
