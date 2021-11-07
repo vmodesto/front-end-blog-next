@@ -8,6 +8,8 @@ export function makeServer({ environmnet = "dvelopment"} = {}) {
       article: Model.extend({topics: hasMany()}),
       topic: Model.extend({articles: hasMany()}),
       course: Model,
+      image: Model,
+      content: Model,
     },
 
     seeds(server){
@@ -59,7 +61,7 @@ export function makeServer({ environmnet = "dvelopment"} = {}) {
     },
 
     routes() {
-        this.namespace = "api";
+        this.namespace = "mock_api";
 
         this.get("/articles", (schema) => { return schema.articles.all();
         });
@@ -70,9 +72,17 @@ export function makeServer({ environmnet = "dvelopment"} = {}) {
 
         this.post("/articles", (schema, request) => {
           let attrs = JSON.parse(request.requestBody);
-          return schema.article.create(attrs);
+          console.log(attrs)
+          return schema.articles.create(attrs);
         })
-
+        this.post("/images", (schema, request) => {
+          console.log(request.requestBody)
+          return schema.images.create(request.requestBody);
+        })
+        this.post("/content", (schema, request) => {
+          console.log(request.requestBody)
+          return schema.contents.create(request.requestBody);
+        })
 
         this.post('users/login', () => {
           return {

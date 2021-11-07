@@ -22,10 +22,10 @@ const NewArticle: NextPage = () => {
   const [courses, setCourses] = useState<Courses[]>([]);
   const [topics, setTopics] = useState<ContentTypeProps[]>([]);
   const [articleTopics, setArticleTopics] = useState<ContentTypeProps[]>([]);
-  const [errorMessage, setErrorMessage] = useState('')
-  const [titleErrorMessage, setTitleErrorMessage] = useState('')
-  const [topicErrorMessage, setTopicErrorMessage] = useState('')
-  const [imageErrorMessage, setImageErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
+  const [titleErrorMessage, setTitleErrorMessage] = useState('');
+  const [topicErrorMessage, setTopicErrorMessage] = useState('');
+  const [imageErrorMessage, setImageErrorMessage] = useState('');
   const [contentErrorMessage, setContentErrorMessage] = useState('');
   const [image, setImage] = useState<File>();
   const [content, setContent] = useState('');
@@ -74,11 +74,15 @@ const NewArticle: NextPage = () => {
     setArticleTopics(newTopics);
   } 
 
+  const handleImageFileChange = (e: any) => {
+    setImage(e.target.files[0]);
+  }
+
   const handleContentChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     setContent(e.currentTarget.value);
   }
 
-  const handleStepOneClick = () => {
+  const handleStepOneClick = async () => {
     if(title === "" || title.length < 6){
       return setTitleErrorMessage("Type a better article name");
     }
@@ -87,47 +91,47 @@ const NewArticle: NextPage = () => {
     } else {
       setTitleErrorMessage('');
       setTopicErrorMessage('');
+      setLoading(true)
+      await api.post('api/articles', {title: title, topicId: articleTopics[0].id})
+      setLoading(false)
       setPageIndex(1); 
     }
   }
 
-  const handleStepTwoClick = () => {
-    if(!image?.name) {
+  const handleStepTwoClick = async () => {
+    const formData = new FormData();
+    if(!image) {
       return setImageErrorMessage('An image must be submitted');
     } else {
-      return setPageIndex(2);
+      if(image.name.endsWith('.jpg') 
+      || image.name.endsWith('.jpeg')
+      || image.name.endsWith('.png')){
+        formData.append("article_image", image);
+        formData.append("name", "test");
+        setLoading(true);
+        await api.post("api/images", formData).then((response => console.log(response)))
+        setLoading(false);
+        return setPageIndex(2);
+      } else {
+        setImageErrorMessage('Fyle type not accepted')
+      }
     }
   }
 
-  const handleStepThreeClick = () => {
-    if(content.length < 500) {
-      return setContentErrorMessage('The article must be at least 500 words.');
-    } else {
-      setContentErrorMessage('');
-      setLoading(true);
+  const handleStepThreeClick = async () => {
+    if (image) {
+      if(content.length < 10) {
+        return setContentErrorMessage('The article must be at least 500 words.');
+      } else {
+        setContentErrorMessage('');
+        setLoading(true);
+        const file = new Blob([content], {type: 'text/md'})
+        await api.post('api/content', file)
+        setLoading(false);
+      }
     }
   }
 
-  const handleCreateArticleClick = () => {
-    topics.map((topic) => {
-      console.log(topic)
-      api.post("api/articles", {title: title, topic: topic}).then((response) => console.log(response))
-    })
-  }
-  
-  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.currentTarget.files;
-    if(!files) return;
-    if(files[0].name.endsWith(".jpg") 
-      ||
-      files[0].name.endsWith(".img")
-      || files[0].name.endsWith(".png")
-    ){
-      setImage(files[0]);
-    } else {
-      setErrorMessage('File type not accepted!')
-    }
-  }
   return (
     <>
       <Header />
@@ -143,12 +147,16 @@ const NewArticle: NextPage = () => {
             handleTitleChange={handleTitleChange}
             openModal={openModal}
         />
-        <button
-          className={styles.nextButton}
-          onClick={handleStepOneClick}>
-            Next
-          </button>
+        {loading === false 
+          ? 
+          <button
+            className={styles.nextButton}
+            onClick={handleStepOneClick}>Next
+          </button> :
+            <ClipLoader css="margin-top: 2rem;" color="#fca311" loading={loading}/>
+          }
         </>
+        
         }
         {pageIndex === 1 &&
         <>
@@ -162,11 +170,14 @@ const NewArticle: NextPage = () => {
               onClick={() => {setPageIndex(0); setErrorMessage('')}}>
               Back
             </button>
-            <button
-              className={styles.nextButton}
-              onClick={handleStepTwoClick}>
-              Next
-            </button>
+            {loading === false 
+              ? 
+              <button
+                className={styles.nextButton}
+                onClick={handleStepTwoClick}>Create
+              </button> :
+                <ClipLoader css="margin-top: 2rem;" color="#fca311" loading={loading}/>
+            }
           </div>
         </>
         }
@@ -223,10 +234,10 @@ const NewArticle: NextPage = () => {
             <h2>Choose topics</h2>
             <div className={styles.contentType}>
             {topics.length == 0 ? 
-            <small 
+            <small
               className={styles.customSmall}>
               choose a course first
-            </small> 
+            </small>
             : 
               topics.map((topic) =>
               <div

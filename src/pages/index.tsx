@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   const [articles, setArticles] = useState<ArticleProps[]>([]);
 
   useEffect(() => {
-    api.get('api/articles').then(function (response: any){
+    api.get('mock_api/articles').then(function (response: any){
       console.log(response.data.articles)
       const data: ArticleProps[] = response.data.articles;
       setArticles(data)
