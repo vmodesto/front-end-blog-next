@@ -18,6 +18,7 @@ export interface ArticleProps {
 }
 
 const Home: NextPage = () => {
+  const [pageIndex, setPageIndex] = useState(0);
   const [articles, setArticles] = useState<ArticleProps[]>([]);
 
   useEffect(() => {
@@ -30,6 +31,31 @@ const Home: NextPage = () => {
   console.log('articles var:')
   console.log(articles)
   return (
+    <>
+    {pageIndex === 0 &&
+      <div>
+        <div className={styles.introductionContainer}>
+          <h1 className={styles.introductionTitle}>Blog</h1>
+          <div>
+            <img src="/images/person.svg"/>
+            <div>
+              <h1>
+                Busque conteúdos que vão ajudar no desenvolvimento de seus 
+                estudos. Clique em explorar e encontre diversos artigos, tópicos, 
+                matérias e cursos.
+              </h1>
+              <button 
+                className={styles.nextButton}
+                onClick={() => setPageIndex(1)}
+              >
+                Explorar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    { pageIndex === 1 &&
     <>
     <Header/>
     <div className={styles.container}>
@@ -47,8 +73,10 @@ const Home: NextPage = () => {
           topics={article.topics}
           date={article.date}
         />)}
-      </div>
     </div>
+    </div>
+    </>
+    }
     </>
   )
 }
