@@ -15,6 +15,8 @@ COPY package*.json /app
 # Install dependencies in /app
 RUN yarn install
 
+ENV NODE_PATH=/install/node_modules
+
 # Copy the rest of our Next.js folder into /app
 COPY . /app
 

@@ -61,7 +61,7 @@ export function makeServer({ environmnet = "dvelopment"} = {}) {
     },
 
     routes() {
-        this.namespace = "mock_api";
+        this.namespace = "mockapi";
 
         this.get("/articles", (schema) => { return schema.articles.all();
         });
