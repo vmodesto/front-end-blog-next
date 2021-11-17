@@ -1,149 +1,168 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
+import axios from 'axios';
+import router from 'next/router';
+import React, { useContext, useState } from 'react';
 
 import styles from '../../styles/auth.module.scss';
+import api from '../api/api';
+import { SignIn } from '../components/Auth/SignIn';
+import { SignUp } from '../components/Auth/SignUp';
+import StoreContext from '../components/Store/Context';
+
+type User = {
+	name: string,
+	email: string,
+	password: string,
+}
 
 export default function Auth() {
-	const [pageIndex, setPageIndex] = useState(0);
-	const [username, setUsername] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const { setUserData } = useContext(StoreContext);
+	const [pageIndex, setPageIndex] = useState<Number>(0);
+	const [user, setUser] = useState<User>({name: "", password: "", email: ""});
 	const [emailErrorMessage, setEmailErrorMessage] = useState("");
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
 	const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
+	const [loading, setLoading] = useState<boolean>(false);
+	const [responseMessage, setResponseMessage] = useState("");
+
+	function timeout(delay: number) {
+    return new Promise( res => setTimeout(res, delay) );
+	}
 
 	const handleUsernameChange = (e: React.FormEvent<HTMLInputElement>) => {
-		setUsername(e.currentTarget.value);
+		setUser({...user, name: e.currentTarget.value});
 	}
 
 	const handleEmailChange = (e: React.FormEvent<HTMLInputElement>) => {
-		setEmail(e.currentTarget.value);
+		setUser({...user, email: e.currentTarget.value});
 	}
 
 	const handlePasswordChange = (e: React.FormEvent<HTMLInputElement>) => {
-		setPassword(e.currentTarget.value);
+		setUser({...user, password: e.currentTarget.value});
 	}
 
-	const handleSignInClick = () => {
-		// if(username.length < 6){
-		// 	setErrorMessages({...errorMessages, username: "Enter a longer name"})
-		// }
-		if(email.length < 6) {
-			setEmailErrorMessage("Invalid email")
+	const handleSignInClick = async () => {
+		setLoading(true);
+		if(user.email.length < 6) {
+			setEmailErrorMessage("Invalid email");
+			setLoading(false);
+			return;
 		}
-		if(password.length < 6) {
-			setPasswordErrorMessage("Invalid password")
+		setEmailErrorMessage("");
+		if(user.password.length < 6) {
+			setPasswordErrorMessage("Invalid password");
+			setLoading(false);
+			return;
 		}
-		
+		setPasswordErrorMessage("");
+		try {
+			await api.post('http://54.83.70.8/users-api/authentications/authenticate', {
+				"email": user.email,
+				"password": user.password 
+			}).then(async (response: any) => {
+				await timeout(1000);
+				setUserData(response.data);
+				router.push("/");
+			})
+		} catch (error) {
+			setLoading(false);
+			setResponseMessage('Failure to create session');
+		}
 	}
 
-	const handleSignUpClick = () => {
-		// if(username.length < 6){
-		// 	setErrorMessages({...errorMessages, username: "Enter a longer name"})
-		// }
-		if(email.length < 6) {
+	const handlePageChange = (number: Number) => {
+		setPageIndex(number);
+		setUser({name: "", password: "", email: ""})
+		setEmailErrorMessage("");
+		setPasswordErrorMessage("");
+		setUsernameErrorMessage("");
+	}
+
+	const handleSignUpClick = async () => {
+		setLoading(true);
+		if(user.email.length < 6) {
 			setEmailErrorMessage("Invalid email format");
+			setLoading(false);
+			return;
 		}
-		if(password.length < 6) {
-			setPasswordErrorMessage("Enter a longer password");
-		}
-		if(username.length < 6) {
+		else if(user.name.length < 6) {
 			setUsernameErrorMessage("Enter a longer name");
+			setLoading(false);
+			return;
 		}
+		else if(user.password.length < 6) {
+			setPasswordErrorMessage("Enter a longer password");
+			setLoading(false);
+			return;
+		}
+		setEmailErrorMessage("");
+		setPasswordErrorMessage("");
+		setUsernameErrorMessage("");
+		try {
+			await api.post('http://54.83.70.8/users-api/users/create', {
+				"name": user.name,
+				"email": user.email,
+				"password": user.password}
+			).then(async (response) => {
+				setLoading(false);
+				if(response.status === 201){
+					setResponseMessage('Created Account!');
+					router.push("/auth");
+				}else{
+					setResponseMessage('Failure to create account!');
+				}
+			})
+		} catch (error: any) {
+			setResponseMessage('Failure to create account!');
+			setLoading(false);
+		}		
 	}
 
 	return (
 		<>
-			{pageIndex ===0 ? <div className={styles.container}>
-				<h1>Blog</h1>
-				<div className={styles.formGroup}>
-					<h2>Login</h2>
-					<input 
-						placeholder="Email"
-						value={email}
-						onChange={handleEmailChange}
-					/>
-					<small className={styles.errorMessage}>{emailErrorMessage}</small>
-					<input
-						placeholder="Password"
-						onChange={handlePasswordChange}
-					/>
-					<small className={styles.errorMessage}>{passwordErrorMessage}</small>
-
-						<a href="/"><button
-							className={styles.nextButton}
-							onClick={handleSignInClick}
-						>
-							Sign in
-						</button></a>
-
-					<small
-						className={styles.smallAuth}
-						onClick={
-						() => { 
-							setPageIndex(1);
-							setUsername("");
-							setEmail("");
-							setPassword("");
-							setPasswordErrorMessage("");
-							setUsernameErrorMessage("");
-							setEmailErrorMessage("")
-						}
-					}>
-							Create account
-					</small>
-				</div>
-			</div>
-			:
-			<div className={styles.container}>
-				<h1>Blog</h1>
-				<div className={styles.formGroup}>
-					<h2>Register</h2>
-					<input
-						placeholder="Username"
-						onChange={handleUsernameChange}
-						value={username}
-					/>
-					<small className={styles.errorMessage}>{usernameErrorMessage}</small>
-					<input
-						placeholder="Email"
-						onChange={handleEmailChange}
-						value={email}
-					/>
-					<small className={styles.errorMessage}>{emailErrorMessage}</small>
-					<input
-						placeholder="Password"
-						onChange={handlePasswordChange}
-						value={password}
-					/>
-					<small className={styles.errorMessage}>{passwordErrorMessage}</small>
-					<button
-						className={styles.nextButton}
-						onClick={handleSignUpClick}
-					>
-						Sign up
-					</button>
-					<small
-						className={styles.smallAuth}
-						onClick={
-							
-							() => { 
-								setPageIndex(0);
-								setUsername("");
-								setEmail("");
-								setPassword("");
-								setPassword("")
-								setPasswordErrorMessage("");
-								setUsernameErrorMessage("");
-								setEmailErrorMessage("")
-							}
-						}>
-						Sign in
-					</small>
-				</div>
-				
-			</div>
+			{responseMessage !== "" && 
+				<small 
+					className={
+						responseMessage === "Created Account!" 
+						? styles.responseMessageSuccess
+						: styles.responseMessageFailure
+					}
+				>{responseMessage}
+				</small>
 			}
+			<div>
+				<h1 className={styles.title}>Blog</h1>
+				{pageIndex ===0 
+				? 
+				<SignIn
+					email={user.email}
+					password={user.password}
+					handleEmailChange={handleEmailChange}
+					handlePasswordChange={handlePasswordChange}
+					emailErrorMessage={emailErrorMessage}
+					passwordErrorMessage={passwordErrorMessage}
+					handleSignInClick={handleSignInClick}
+					handlePageChange={handlePageChange}
+					loading={loading}
+					responseMessage={responseMessage}
+				/>
+				:
+				<SignUp
+					name={user.name}
+					email={user.email}
+					password={user.password}
+					handleUsernameChange={handleUsernameChange}
+					handleEmailChange={handleEmailChange}
+					handlePasswordChange={handlePasswordChange}
+					usernameErrorMessage={usernameErrorMessage}
+					emailErrorMessage={emailErrorMessage}
+					passwordErrorMessage={passwordErrorMessage}
+					handleSignUpClick={handleSignUpClick}
+					handlePageChange={handlePageChange}
+					loading={loading}
+					responseMessage={responseMessage}
+				/>
+				}
+			</div>
 		</>
 	)
 }

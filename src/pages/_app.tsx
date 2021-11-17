@@ -1,12 +1,17 @@
 import '../../styles/globals.scss'
 import type { AppProps } from 'next/app'
-import { makeServer } from '../api/miraje'
+import StoreProvider from '../components/Store/Provider';
 
-if (process.env.NODE_ENV === "development") {
-  makeServer()
-}
+// if (process.env.NODE_ENV === "development") {
+//   makeServer()
+// }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  
+  return (
+    <StoreProvider>
+      <Component {...pageProps} />
+    </StoreProvider>
+  )
 }
-export default MyApp
+export default MyApp;

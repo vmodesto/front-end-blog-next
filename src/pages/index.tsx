@@ -22,14 +22,13 @@ const Home: NextPage = () => {
   const [articles, setArticles] = useState<ArticleProps[]>([]);
 
   useEffect(() => {
-    api.get('mock_api/articles').then(function (response: any){
-      console.log(response.data.articles)
-      const data: ArticleProps[] = response.data.articles;
-      setArticles(data)
+    api.get('http://54.83.70.8/articles-api/articles/list-approved')
+    .then(function (response: any){
+      const data: ArticleProps[] = response.data;
+      setArticles(data);
     })
   },[]);
-  console.log('articles var:')
-  console.log(articles)
+
   return (
     <>
     {pageIndex === 0 &&
@@ -41,8 +40,8 @@ const Home: NextPage = () => {
             <div>
               <h1>
                 Busque conteúdos que vão ajudar no desenvolvimento de seus 
-                estudos. Clique em explorar e encontre diversos artigos, tópicos, 
-                matérias e cursos.
+                estudos. Clique em explorar e encontre diversos artigos, 
+                tópicos, matérias e cursos.
               </h1>
               <button 
                 className={styles.nextButton}
@@ -62,7 +61,7 @@ const Home: NextPage = () => {
       <div className={styles.featuredArticles}>
         <h1>Featured articles</h1>
       
-        {articles.map((article, index) => <Article
+        {articles.length !== 0 ? articles.map((article, index) => <Article
           key={index}
           authorId={article.authorId}
           authorImage={article.authorImage}
@@ -72,7 +71,7 @@ const Home: NextPage = () => {
           description={article.description}
           topics={article.topics}
           date={article.date}
-        />)}
+        />) : <h2>Empty list</h2>}
     </div>
     </div>
     </>

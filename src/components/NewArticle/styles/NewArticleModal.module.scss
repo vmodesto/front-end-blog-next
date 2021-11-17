@@ -1,0 +1,50 @@
+
+.topicModal {
+  height: 60%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  .content {
+    .contentType {
+      display: flex;
+    }
+    h1 {
+      text-align: center;
+    }
+    span {
+      align-self: flex-end;
+      &:hover{
+        color: red;
+        cursor: pointer;
+      }
+    }
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    width: 100%;
+    border: 1px black solid;
+    background: #fff;
+
+  }
+  .nextButton {
+    margin-top: 2rem;
+    background: #fca311;
+    border: none;
+    text-align: center;
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: filter 0.2s;
+  
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+}
