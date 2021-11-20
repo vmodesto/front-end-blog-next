@@ -1,27 +1,44 @@
+$postImageWidth: 250px;
+$postImageHeight: 150px;
+
 .container {
-  width: 50%;
+  width: 60%;
   padding: 1rem;
   border-bottom: 1px #ced4da solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+  .defaultAuthorImageContainer {
+
+    .defaultAuthorImage {
+        width: 20px;
+        height: 20px;
+        color: black;
+      }
+  }
   :last-child {
     border: none;
-  }
-
-  .authorImage {
-    height: 30px;
-    width: 30px;
-    border-radius: 30px;
   }
 
   .header {
     display: flex;
     align-items: center;
+    justify-content: left;
+    width: 100%;
     :first-child {
       margin-right: 10px;
+    }
+
+    .authorImage {
+      height: 30px;
+      width: 30px;
+      border-radius: 30px;
     }
   }
 
   .introduction {
+    width: 100%;
     display: flex;
     :first-child {
       margin-right: 10px;
@@ -32,26 +49,24 @@
     }
 
     .introductionText {
+      width: calc(100% - $postImageWidth);
+      height: 150px;
       display: flex;
       flex-direction: column;
-      h1 {
+      text-align: justify;
+      h2 {
         margin: 0;
       }
-    }
-    @media screen and (max-width: 600px) {
-      .postImage {
-        width: 200px;
-        height: 100px;
+      p {
+        margin: 10px 0;
       }
-      display: flex;
-      flex-direction: column;
     }
   }
 
   .info {
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    align-content: center;
     align-items: center;
     div {
       margin-right: 10px;
@@ -62,18 +77,70 @@
     h5 {
       text-align: end;
       font-weight: inherit;
-    }
-    @media screen and (max-width: 500px) {
-      div {
-        margin-top: 10px;
-        &:first-child{
-          margin-top: 0;
-        }
-
-        flex-direction: column;
-      }
-      flex-direction: column;
+      margin: 0;
     }
   }
+  
+  @media screen and (max-width: 900px) {
+    width: 70%;
+  }
 
+  @media screen and (max-width: 740px) {
+    width: 80%;
+  }
+
+  @media screen and (max-width: 650px) {
+    width: 90%;
+    .introduction {
+      width: 100%;
+      display: flex;
+      .postImage {
+        width: 250px;
+        height: 150px;
+      }
+
+      .introductionText {
+        width: 50%;
+      }
+    }
+  }
+  @media screen and (max-width: 570px) {
+    width: 100%;
+    .introduction {
+      width: 100%;
+      display: flex;
+      .postImage {
+        width: 250px;
+        height: 150px;
+      }
+
+      .introductionText {
+        width: 40%;
+      }
+    }
+  }
+  @media screen and (max-width: 480px) {
+    width: 90%;
+    .header {
+      justify-content: center;
+    }
+
+    .introduction {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .postImage {
+        margin: 0;
+        width: 250px;
+        height: $postImageHeight;
+      }
+      .introductionText {
+        width: 250px;
+      }
+    }
+    
+  }
 }
+
+//responsiveness
