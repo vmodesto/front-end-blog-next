@@ -1,16 +1,14 @@
-import { Dispatch, SetStateAction } from 'react';
 import { ClipLoader } from 'react-spinners';
 import styles from '../../../styles/auth.module.scss';
+import { AuthErrorMessage } from '../../pages/auth';
 
 interface SignInProps {
-	handleEmailChange: (e: React.FormEvent<HTMLInputElement>) => void,
-	handlePasswordChange: (e: React.FormEvent<HTMLInputElement>) => void,
 	email: string,
 	password: string,
-	emailErrorMessage: string,
-	passwordErrorMessage: string,
+	handleInputChange: (e: React.FormEvent<HTMLInputElement>, type: string) => void,
 	handleSignInClick: () => void,
 	handlePageChange: (number: Number) => void
+	errorMessage: AuthErrorMessage,
 	loading: boolean,
 	responseMessage: string,
 }
@@ -23,20 +21,50 @@ export function SignIn(props: SignInProps) {
 				<input
 					placeholder="Email"
 					value={props.email}
-					onChange={props.handleEmailChange}
+					onChange={
+						(e: React.FormEvent<HTMLInputElement>) => {
+							props.handleInputChange(e, "email")
+						}
+					}
 				/>
-				{props.emailErrorMessage !== "" && <small className={styles.errorMessage}>{props.emailErrorMessage}</small>}
+				{props.errorMessage.email !== "" && 
+					<small
+						className={styles.errorMessage}
+					>
+						{props.errorMessage.email}
+					</small>
+				}
 				<input
 					placeholder="Password"
-					onChange={props.handlePasswordChange}
+					type="password"
+					onChange={
+						(e: React.FormEvent<HTMLInputElement>) => {
+							props.handleInputChange(e, "password")
+						}
+					}
 				/>
-				{props.passwordErrorMessage !== "" && <small className={styles.errorMessage}>{props.passwordErrorMessage}</small>}
-				{props.loading === false ? <button
+				{props.errorMessage.password !== "" && 
+					<small
+						className={styles.errorMessage}
+					>
+						{props.errorMessage.password}
+					</small>
+				}
+				{props.loading === false 
+				? 
+				<button
 					className={styles.nextButton}
 					onClick={props.handleSignInClick}
 				>
-					Sign in
-				</button> : <ClipLoader css="margin-top: 2rem;" color="#fca311" loading={props.loading}/>}
+				Sign in
+				</button>
+				: 
+				<ClipLoader 
+					css="margin-top: 2rem;"
+					color="#fca311"
+					loading={props.loading}
+				/>
+				}
 				<small
 					className={styles.smallAuth}
 					onClick={
