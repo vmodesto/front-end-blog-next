@@ -9,6 +9,7 @@ import { StepThree } from "../components/NewArticle/StepThree";
 import { ClipLoader } from "react-spinners";
 import { NewArticleModal } from "../components/NewArticle/NewArticleModal";
 import StoreContext from "../components/Store/Context";
+import { blogArticleUrl, blogUploadUrl } from "../shared/api_endpoints";
 
 export interface Content {
   id: string,
@@ -16,6 +17,7 @@ export interface Content {
 }
 
 const NewArticle: NextPage = () => {
+  const [articleId, setArticleId] = useState("");
   const {userData} = useContext<any>(StoreContext);//with bug, but still using
   const [pageIndex, setPageIndex] = useState(0);
   const [title, setTitle] = useState('');
@@ -31,7 +33,7 @@ const NewArticle: NextPage = () => {
   const [topicErrorMessage, setTopicErrorMessage] = useState('');
   const [imageErrorMessage, setImageErrorMessage] = useState('');
   const [contentErrorMessage, setContentErrorMessage] = useState('');
-  const [image, setImage] = useState<File>();
+  const [image, setImage] = useState<any>();
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -72,7 +74,6 @@ const NewArticle: NextPage = () => {
 
   const handleDescriptionChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     setDescription(e.currentTarget.value)
-    console.log(description)
   }
 
   const handleArticleTopicAdd = (item: Content) => {
@@ -102,11 +103,9 @@ const NewArticle: NextPage = () => {
   }
 
   const handleStepOneClick = async () => {
-    const url = "http://54.83.70.8/articles-api/articles/create";
     if (title === "" || title.length < 6) {
       return setTitleErrorMessage("Type a better article name");
     }
-    console.log(description.length)
     if (description.length < 30) {
       
       return setDescriptionErrorMessage("Type a longer description")
@@ -118,14 +117,16 @@ const NewArticle: NextPage = () => {
     setTopicErrorMessage('');
     const topicsIds = articleTopics.map(topic => topic.id);
     try {
-    const response = await api.post(url,
-    { 
-      title: title,
-      topic_ids: [topicsIds[0]],
-      description: description
-    }, {headers: { Authorization: `Bearer ${userData?.token}` }})
+      const response: any = await api.post(blogArticleUrl + "/articles/create",
+      { 
+        title: title,
+        topic_ids: [topicsIds[0]],
+        description: description
+      }, {headers: { Authorization: `Bearer ${userData?.token}` }})
+      console.log(response.data.id);
+      setArticleId(response.data.id);
     } catch (error: any) {
-      console.log(error.response.data)
+      setErrorMessage(error.response.data);
     }
     setLoading(false)
     setPageIndex(1);
@@ -140,28 +141,41 @@ const NewArticle: NextPage = () => {
       if (image.name.endsWith('.jpg')
         || image.name.endsWith('.jpeg')
         || image.name.endsWith('.png')) {
-        formData.append("article_image", image);
-        formData.append("name", "test");
-        setLoading(true);
-        await api.post("api/images", formData).then((response => console.log(response)))
+        formData.append("thumbnail", image);
+        try {
+          const response = await api.patch(blogUploadUrl + '/articles/thumbnail/update/' + articleId,
+          formData,
+          { headers: { Authorization: `Bearer ${userData?.token}` } })
+          console.log(response);
+          return setPageIndex(2);
+          
+        } catch (error: any) {
+          console.log(error.response)
+        }
         setLoading(false);
-        return setPageIndex(2);
       } else {
-        setImageErrorMessage('Fyle type not accepted')
+        setImageErrorMessage('Fyle type not accepted');
       }
     }
   }
 
   const handleStepThreeClick = async () => {
+    const formData = new FormData();
     if (image) {
       if (content.length < 10) {
         return setContentErrorMessage('The article must be at least 500 words.');
       } else {
         setContentErrorMessage('');
-        setLoading(true);
-        const file = new Blob([content], { type: 'text/md' })
-        await api.post('api/content', file)
-        setLoading(false);
+        const file = new File([content], "content.md", { type: "text/plain"})
+        formData.append("content", file);
+        console.log(file);
+        try {
+          await api.patch(blogUploadUrl + '/articles/content/update/' + articleId, 
+          formData, { headers: { Authorization: `Bearer ${userData?.token}` } })
+        } catch (error: any) {
+          console.log(error.response);
+        }
+        // setLoading(false);
       }
     }
   }
@@ -212,7 +226,7 @@ const NewArticle: NextPage = () => {
                   className={styles.nextButton}
                   onClick={handleStepTwoClick}>Create
                 </button> :
-                <ClipLoader css="margin-top: 2rem;" color="#fca311" loading={loading} />
+                <ClipLoader css="margin-top: 2rem" color="#fca311" loading={loading} />
               }
             </div>
           </>

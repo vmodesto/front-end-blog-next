@@ -49,7 +49,6 @@ export function NewArticleModal(props: NewArticleModalProps) {
                   handleContentClick={props.handleSubjectClick}
                 />}
             </div>
-            <small className={styles.errorMessage}>{props.errorMessage}</small>
           </div>
           <div>
             <h2>Choose topics</h2>
@@ -60,7 +59,7 @@ export function NewArticleModal(props: NewArticleModalProps) {
                   choose a subject first
                 </small>
                 :
-                <ContentTypes content={props.topics} handleContentClick={props.handleArticleTopicAdd} />}
+                <ContentTypes isTopic={true} content={props.topics} handleContentClick={props.handleArticleTopicAdd} />}
             </div>
             <small className={styles.errorMessage}>{props.errorMessage}</small>
           </div>

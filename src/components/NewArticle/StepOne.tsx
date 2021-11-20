@@ -64,6 +64,7 @@ export function StepOne({
               Choose one topic or more...
             </small>
           </div>
+          <div className={styles.articleTopics}>
           {articleTopics.length !== 0 && <div className={styles.contentType}>
             {articleTopics.map((topic) =>
               <div key={topic.id} className={styles.marginItems}>
@@ -75,6 +76,7 @@ export function StepOne({
                 />
               </div>)}
           </div>}
+          </div>
         </div>
         {
           topicErrorMessage !== '' &&

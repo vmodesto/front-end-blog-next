@@ -3,11 +3,12 @@ import styles from '../../../styles/NewArticle.module.scss';
 import { Content } from "../../pages/new_article";
 
 type ContentTypesProps = {
+  isTopic?: boolean,
   content: any[],
   handleContentClick?: any,
 }
 
-export function ContentTypes({content, handleContentClick}: ContentTypesProps) {
+export function ContentTypes({content, handleContentClick, isTopic}: ContentTypesProps) {
   return (
     <>
     {content.length !== 0 ? content.map((item: Content) => 
@@ -16,7 +17,7 @@ export function ContentTypes({content, handleContentClick}: ContentTypesProps) {
         id={item.id}
         className={styles.marginItems}
         onClick={() => handleContentClick(item)}>
-          <ContentType  name={item.name} />
+          <ContentType type={isTopic === true ? "topics" : ""} name={item.name} />
       </div>) : <small>Empty list</small>}
     </>
   )
