@@ -25,15 +25,17 @@ export default function Profile() {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const { userData, setUserData } = useContext<any>(StoreContext);
   const [user, setUser] = useState<User>({
-    avatar: null,
-    name: "",
+    avatar: "",
     email: "",
+    name: "",
     currentPassword: "",
     newPassword: ""
   });
   useEffect(() => {
     if(userData !== null) {
       setUser(userData.user);
+      console.log(user)
+      console.log(userData)
     }
   }, [])
 
@@ -62,7 +64,7 @@ export default function Profile() {
         "new_password": user.newPassword
       },{headers: {Authorization: `Bearer ${userData?.token}`}});
       setResponseMessage("Updated profile!");
-      const newUser = response.data;
+
       setUserData({token: userData.token, user: response.data});
       setIsLoading(false);
       router.reload();
@@ -87,7 +89,6 @@ export default function Profile() {
 
   return (
     <>
-    {console.log(user.avatar)}
       {userData === null ? <>{redirectToSignIn()}</> :
       <>
       <Header />
@@ -115,7 +116,7 @@ export default function Profile() {
               type="file"
               id="avatar"
               className={styles.inputAvatar}
-              onChange={handleUserChange}
+              onChange={() => handleUserChange}
             />
           </div>
         </div>
@@ -126,44 +127,44 @@ export default function Profile() {
             type="email"
             id="email"
             disabled={isDisabled}
-            value={user.email}
-            onChange={handleUserChange}
+            value={user.email || ''}
+            onChange={() => handleUserChange}
           />
           <label>Name</label>
           <input
             type="text"
             id="name"
             disabled={isDisabled}
-            value={user.name}
-            onChange={handleUserChange}
+            value={user.name || ''}
+            onChange={() => handleUserChange}
           />
           <label>Current Password</label>
           <input
             id="currentPassword"
             disabled={isDisabled}
-            value={user.currentPassword}
-            onChange={handleUserChange}
+            value={user.currentPassword || ''}
+            onChange={() => handleUserChange}
           />
           <label>New password</label>
           <input
             id="newPassword"
             className={styles.password}
             disabled={isDisabled}
-            value={user.newPassword}
+            value={user.newPassword || ''}
             onChange={handleUserChange}
           />
           <div className={styles.editButtons}>
             <button
               id={styles.editProfileButton}
               onClick={() => setIsDisabled(false)}>
-              Edit profile
+              Edit
             </button>
             {isLoading === false ?
               <button
                 id={styles.saveChangesButton}
                 onClick={handleSaveChanges}
               >
-                Save changes
+                Update
               </button>
               :
               <ClipLoader
@@ -187,6 +188,7 @@ export default function Profile() {
       >
         <h3>Are you sure?</h3>
         <button onClick={() => setUserData(null)}>Yes</button>
+        <button onClick={() => closeModal()}>No</button>
       </ReactModal>
       </>
       }

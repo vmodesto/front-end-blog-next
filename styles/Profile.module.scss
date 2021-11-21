@@ -52,23 +52,19 @@
   }
 
   .inputGroup {
-    width: 30%;
+    width: 260px;
     margin: 1rem 0;
+
     input {
-    width: 100%;
-    padding: 1rem 10px;
-    border-radius: 5px;
-    border: 1px black solid;
-    font-size: 1rem;
-    margin-bottom: 1rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
     }
   }
+  
   .editButtons {
     display: flex;
     justify-content: space-between;
-
     #saveChangesButton {
-      width: 50%;
       background: #fca311;
     }
 
@@ -78,7 +74,7 @@
     
   }
   #logout {
-    width: 30%;
+    width: 260px;
     background: #e5989b;
   }
   .logoutModal {

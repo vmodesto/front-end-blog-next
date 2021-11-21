@@ -10,35 +10,6 @@ import { Header } from '../components/Header'
 import StoreContext from '../components/Store/Context'
 import { blogArticleUrl } from '../shared/api_endpoints'
 
-const mockArticles: ArticleProps[] = [
-  {
-    author: {
-      avatar: "",
-      id: "",
-      name: "Joaquina Bezerra"
-    },
-    id: "1",
-    thumbnail: "https://blog-avatar-user.s3.amazonaws.com/c60579b7c62c520a25a1-person.jpeg",
-    createdAt: "",
-    description: "Bla lalfdlsf slfsdlfsldf sldfsldflsd  fdfd dsf ss s sdfsdfdsfsd sfsdfs fds sl ldflslfsdlf lsdfldsflsdfl l ldfsdlfsldfl fldslfsdlfsdlfdsl",
-    title: "Testando a criação do artigo",
-    topics: []
-    },
-    {
-      author: {
-        avatar: "",
-        id: "2",
-        name: "Joaquina Bezerra"
-      },
-      id: "1",
-      thumbnail: "https://blog-avatar-user.s3.amazonaws.com/c60579b7c62c520a25a1-person.jpeg",
-      createdAt: "",
-      description: "Bla lalfdlsf slfsdlfsldf s fdffsffdssllfsdlfdsl",
-      title: "Testando a criação do artigo",
-      topics: []
-      }
-]
-
 export interface ArticleProps {
   author: {
     id: string,
@@ -56,9 +27,9 @@ export interface ArticleProps {
 const Home: NextPage = () => {
   const { userData } = useContext<any>(StoreContext);
   const [pageIndex, setPageIndex] = useState(0);
-  const [articles, setArticles] = useState<ArticleProps[]>(mockArticles);
+  const [articles, setArticles] = useState<ArticleProps[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
-  const [articlesFound, setArticlesFound] = useState<ArticleProps[]>(mockArticles);
+  const [articlesFound, setArticlesFound] = useState<ArticleProps[]>([]);
   const [isShowing, setIsShowing] = useState(false);
 
   useEffect(() => {
@@ -79,6 +50,17 @@ const Home: NextPage = () => {
     } catch (error: any) {
       console.log(error.response)
     }
+  }
+
+  const handleSearchIconClick = () => {
+    api.get(`${blogArticleUrl}/articles/search`, 
+      {
+        headers: {
+          searching: searchInput,
+          most_liked: "false"
+        }
+      }
+    )
   }
 
   return (
@@ -123,7 +105,7 @@ const Home: NextPage = () => {
                 />
                 <AiOutlineSearch 
                   className={styles.searchIcon}
-                  onClick={() => setIsShowing(true)}
+                  onClick={() => handleSearchIconClick()}
                 />
               </div>
               <ArticleMenu isShowing={isShowing} articlesFound={articlesFound} />

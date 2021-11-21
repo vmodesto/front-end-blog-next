@@ -17,7 +17,7 @@ export function ContentTypes({content, handleContentClick, isTopic}: ContentType
         id={item.id}
         className={styles.marginItems}
         onClick={() => handleContentClick(item)}>
-          <ContentType type={isTopic === true ? "topics" : ""} name={item.name} />
+          <ContentType type={isTopic === true ? "topic" : ""} name={item.name} />
       </div>) : <small>Empty list</small>}
     </>
   )
