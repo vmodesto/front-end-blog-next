@@ -8,7 +8,6 @@ import timeout from '../utils/timeout';
 import api from '../api/api';
 import { blogUserUrl } from '../shared/api_endpoints';
 import styles from '../../styles/auth.module.scss';
-import { AxiosError } from 'axios';
 
 type User = {
 	name: string,

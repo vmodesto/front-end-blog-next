@@ -10,6 +10,7 @@ import { ClipLoader } from "react-spinners";
 import { NewArticleModal } from "../components/NewArticle/NewArticleModal";
 import StoreContext from "../components/Store/Context";
 import { blogArticleUrl, blogUploadUrl } from "../shared/api_endpoints";
+import router from "next/router";
 
 export interface Content {
   id: string,
@@ -178,8 +179,13 @@ const NewArticle: NextPage = () => {
     }
   }
 
+  const redirectToSignIn = () => {
+    router.push('/auth');
+  }
+
   return (
     <>
+      {userData === null ? <>{redirectToSignIn()}</> : <>
       <Header />
       <div className={styles.container}>
         {pageIndex === 0 &&
@@ -268,6 +274,7 @@ const NewArticle: NextPage = () => {
         subjects={subjects}
         topics={topics}
       />
+    </>}
     </>
   )
 }
