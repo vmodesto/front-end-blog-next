@@ -6,7 +6,7 @@
 
   .stepOne, .stepTwo {
     align-items: center;
-    width: 30%;
+    width: 280px;
     display: flex;
     flex-direction: column;
   }
@@ -80,6 +80,29 @@
   textarea {
     font-size: 1rem;
   }
+  .pageButtons {
+    margin-top: 1rem;
+    width: 30%;
+    display:  flex;
+    justify-content: space-between;
+    align-content: space-between;
+  }
+  @media screen and (max-width: 1000px) {
+    .stepOne, .stepTwo {
+      align-items: center;
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    .stepOne, .stepTwo {
+      align-items: center;
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 
 .topicModal {
@@ -147,14 +170,6 @@
   padding-left: 10px;
   color: black;
   opacity: 0.5;
-}
-
-.pageButtons {
-  margin-top: 1rem;
-  width: 30%;
-  display:  flex;
-  justify-content: space-between;
-  align-content: space-between;
 }
 
 .contentContainer {

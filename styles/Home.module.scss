@@ -1,8 +1,45 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  .searchBarGroup{
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    align-self: flex-end;
+    margin-right: 2rem;
+    margin-top: 1rem;
+    .searchBar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: bold;
+      border: 1px #fca311 solid;
 
+      input {
+        border: none;
+        padding: 10px 10px;
+        outline: none;
+      }
+      .searchIcon {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        margin-right: 10px;
+        color: #fca311;
+        transition: filter 0.2s;
+        &:hover {
+          filter: brightness(0.8);
+        }
+      }
+    }
+    @media screen and (max-width: 400px) {
+      display: flex;
+      margin-right: 0;
+      align-self: center;
+      width: 240px;
+    }
+  }
   .featuredArticles {
     display: flex;
     flex-direction: column;
@@ -17,37 +54,41 @@
   :last-child {
     border: none;
   }
-}
 
-.introductionContainer {  
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-
-  .introductionTitle {
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 6rem;
-  }
-  
-  div {
+  .introductionContainer {
+    justify-content: center;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    width: 60%;
-    flex-direction: row;
-    div {
-      display: flex;
-      flex-direction: column;
-      margin-left: 2rem;
+    align-content: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+    .introductionTitle {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 6rem;
     }
     
+    div {
+      display: flex;
+      align-items: center;
+      width: 60%;
+      flex-direction: row;
+      div {
+        display: flex;
+        flex-direction: column;
+        margin-left: 2rem;
+      }
+      
+    }
+  }
+  @media screen and (max-width: 320px) {
+    align-items: center;
+    justify-items: center;
   }
 }
 
