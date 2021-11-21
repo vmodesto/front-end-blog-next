@@ -1,13 +1,22 @@
 
 .topicModal {
-  height: 60%;
-  width: 50%;
+  height: 100%;
+  width: 60%;
   display: flex;
   flex-direction: column;
-  margin: auto;
+  margin: 0 auto;
   .content {
     .contentType {
-      display: flex;
+      justify-content: left;
+      display: grid;
+      grid-template-columns: auto auto auto;
+
+      @media screen and (max-width: 950px) {
+        grid-template-columns: auto auto;
+      }
+      @media screen and (max-width: 500px) {
+        grid-template-columns: auto;
+      }
     }
     h1 {
       text-align: center;
@@ -46,5 +55,8 @@
     &:hover {
       filter: brightness(0.9);
     }
+  }
+  @media screen and (max-width: 500px) {
+    height: 400px;
   }
 }

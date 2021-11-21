@@ -14,6 +14,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   
   return (
     <StoreProvider>
+      <meta name="viewport" content=
+            "width=device-width, user-scalable=no" />
       <Component {...pageProps} />
     </StoreProvider>
   )

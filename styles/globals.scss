@@ -5,6 +5,13 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
+  input {
+    width: 260px;
+    padding: 1rem 10px;
+    border: 1px black solid;
+    font-size: 1rem;
+  }
+
   .responseMessageFailure, .responseMessageSuccess {
     margin-top: 1rem;
     position:fixed;
@@ -27,7 +34,7 @@ body {
     padding: 0;
     margin: 0;
     h1 {
-      font-size: 1.6rem;
+      font-size: 1.7rem;
     }
     h4 {
       font-size: 0.8rem;
@@ -38,7 +45,7 @@ body {
     padding: 0;
     margin: 0;
     h1 {
-      font-size: 1.2rem;
+      font-size: 1.6rem;
     }
     h4 {
       font-size: 0.68;

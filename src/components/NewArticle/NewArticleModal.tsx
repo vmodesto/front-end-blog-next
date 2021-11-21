@@ -53,7 +53,7 @@ export function NewArticleModal(props: NewArticleModalProps) {
           <div>
             <h2>Choose topics</h2>
             <div className={styles.contentType}>
-              {props.topics.length == 0 ?
+              {props.topics.length === 0 ?
                 <small
                   className={styles.customSmall}>
                   choose a subject first
