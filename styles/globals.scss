@@ -63,6 +63,11 @@ body {
       font-size: 0.9rem;
     }
   }
+  @media screen and (max-width: 400px) {
+    input {
+      width: 90%;
+    }
+  }
 }
 
 a {

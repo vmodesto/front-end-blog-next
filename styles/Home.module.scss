@@ -3,7 +3,7 @@
   flex-direction: column;
   .searchBarGroup{
     display: flex;
-    width: 300px;
+    width: 405px;
     flex-direction: column;
     align-self: flex-end;
     margin-right: 2rem;
@@ -37,7 +37,7 @@
       display: flex;
       margin-right: 0;
       align-self: center;
-      width: 240px;
+      width: 90%;
     }
   }
   .featuredArticles {
@@ -46,8 +46,13 @@
     align-items: center;
 
     h1 {
-      width: 50%;
+      width: 90%;
       text-align: justify;
+    }
+    @media screen and (max-width: 450px) {
+      width: 90%;
+      align-self: center;
+      align-items: flex-start;
     }
   }
 

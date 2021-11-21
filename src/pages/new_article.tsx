@@ -123,14 +123,12 @@ const NewArticle: NextPage = () => {
         topic_ids: [topicsIds[0]],
         description: description
       }, {headers: { Authorization: `Bearer ${userData?.token}` }})
-      console.log(response.data.id);
       setArticleId(response.data.id);
+      setPageIndex(1);
     } catch (error: any) {
       setErrorMessage(error.response.data);
     }
-    setLoading(false)
-    setPageIndex(1);
-    
+    setLoading(false);   
   }
 
   const handleStepTwoClick = async () => {

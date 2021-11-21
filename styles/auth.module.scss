@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   .formGroup {
-    width: 260px;
+    width: 405px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,6 +13,7 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     input {
+      width: 100%;
       border-radius: 5px;
       margin-bottom: 1rem;
     }
@@ -27,6 +28,9 @@
       padding-bottom: 1rem;
       align-self: flex-start;
       color: red;
+    }
+    @media screen and (max-width: 450px) {
+      width: 100%;
     }
   }
   

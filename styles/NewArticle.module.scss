@@ -1,4 +1,5 @@
 .container {
+  width: 100%;
   padding-top: 2rem;
   display: flex;
   flex-direction: column;
@@ -6,9 +7,20 @@
 
   .stepOne, .stepTwo {
     align-items: center;
-    width: 280px;
+    width: 405px;
     display: flex;
     flex-direction: column;
+
+    input {
+      width: 100%;
+      border-radius: 5px;
+      border: 1px black solid;
+    }
+
+    @media screen and (max-width: 450px){
+      width: 90%;
+      
+    }
   }
 
   .stepOne {
@@ -24,7 +36,6 @@
 
     .topics {
       width: 100%;
-      margin: 1rem;
       display: flex;
       flex-direction: column;
       border-radius: 5px;
@@ -68,41 +79,23 @@
     }
   }
 
-  input {
-    margin: 1rem;
-    width: 100%;
-    padding: 1rem 10px;
-    border-radius: 5px;
-    border: 1px black solid;
-    font-size: 1rem;
-  }
-
   textarea {
     font-size: 1rem;
   }
   .pageButtons {
     margin-top: 1rem;
-    width: 30%;
+    width: 405px;
     display:  flex;
     justify-content: space-between;
-    align-content: space-between;
-  }
-  @media screen and (max-width: 1000px) {
-    .stepOne, .stepTwo {
-      align-items: center;
-      width: 40%;
-      display: flex;
-      flex-direction: column;
+
+    @media screen  and(max-width: 450px){
+      width: 90%;
+      button {
+        width: 100px;
+      }
     }
   }
-  @media screen and (max-width: 550px) {
-    .stepOne, .stepTwo {
-      align-items: center;
-      width: 280px;
-      display: flex;
-      flex-direction: column;
-    }
-  }
+  
 }
 
 .topicModal {
