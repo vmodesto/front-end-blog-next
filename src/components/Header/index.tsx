@@ -42,7 +42,7 @@ export function Header(){
         }
       </div>
       {menuActive === true  &&
-        <HamburguerMenu />
+        <HamburguerMenu isLogged={isLogged}/>
       }
     </>
   )

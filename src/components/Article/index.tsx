@@ -1,3 +1,4 @@
+import router from "next/router";
 import { IoMdPerson } from "react-icons/io";
 import { ArticleProps } from '../../pages';
 import { ContentType } from '../ContentType';
@@ -5,6 +6,7 @@ import styles from './Article.module.scss';
 
 export function Article(
   { 
+    id,
     author,
     thumbnail,
     createdAt,
@@ -30,7 +32,12 @@ export function Article(
         }
         <h4>{author.name}</h4>
       </div>
-      <div className={styles.introduction}>
+      <div
+        className={styles.introduction}
+        onClick={() => router.push(
+          {pathname: `/article/[id]/[id]`}, `/article/${id}/${author.id}`, {shallow: true}
+        )}
+      >
         <img className={styles.postImage} src={thumbnail} alt="ReactImage" />
         <div className={styles.introductionText}>
           <h2>{title}</h2>

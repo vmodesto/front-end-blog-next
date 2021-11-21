@@ -33,7 +33,7 @@
         }
       }
     }
-    @media screen and (max-width: 450px) {
+    @media screen and (max-width: 500px) {
       display: flex;
       margin-right: 0;
       align-self: center;
@@ -49,7 +49,7 @@
       width: 90%;
       text-align: justify;
     }
-    @media screen and (max-width: 450px) {
+    @media screen and (max-width: 500px) {
       width: 90%;
       align-self: center;
       align-items: flex-start;
@@ -90,10 +90,6 @@
       }
       
     }
-  }
-  @media screen and (max-width: 320px) {
-    align-items: center;
-    justify-items: center;
   }
 }
 

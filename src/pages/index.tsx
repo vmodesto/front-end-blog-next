@@ -1,14 +1,14 @@
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
 
-import React, { useContext, useEffect, useState } from 'react'
-import { AiOutlineSearch } from 'react-icons/ai'
-import styles from '../../styles/Home.module.scss'
-import api from '../api/api'
-import { Article } from '../components/Article'
-import { ArticleMenu } from '../components/ArticleMenu'
-import { Header } from '../components/Header'
-import StoreContext from '../components/Store/Context'
-import { blogArticleUrl } from '../shared/api_endpoints'
+import React, { useContext, useEffect, useState } from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
+import styles from '../../styles/Home.module.scss';
+import api from '../api/api';
+import { Article } from '../components/Article';
+import { ArticleMenu } from '../components/ArticleMenu';
+import { Header } from '../components/Header';
+import StoreContext from '../components/Store/Context';
+import { blogArticleUrl } from '../shared/api_endpoints';
 
 export interface ArticleProps {
   author: {
@@ -41,26 +41,22 @@ const Home: NextPage = () => {
   }, []);
 
   const handleSearchInputChange = async (e: React.FormEvent<HTMLInputElement>) => {
-    setSearchInput(e.currentTarget.value)
+    setSearchInput(e.currentTarget.value);
+  }
+
+  const handleSearchIconClick = async () => {
     try {
-    const response: any = await api.get(`${blogArticleUrl}/articles/search`, 
-    {headers: {most_likemost_likedd: "false", searching: searchInput}})
-    const data: ArticleProps[] = response.data;
-    setArticlesFound(data);
-    } catch (error: any) {
-      console.log(error.response)
+    const response: any = await api.get(
+    `${blogArticleUrl}/articles/search?most_clap=false&searching=${searchInput}`)
+    setArticlesFound(response.data);
+    setIsShowing(true);
+  } catch (error: any){
+    console.log(error.response)
     }
   }
 
-  const handleSearchIconClick = () => {
-    api.get(`${blogArticleUrl}/articles/search`, 
-      {
-        headers: {
-          searching: searchInput,
-          most_liked: "false"
-        }
-      }
-    )
+  const handleArticleMenuClose = () => {
+    setIsShowing(false);
   }
 
   return (
@@ -108,12 +104,16 @@ const Home: NextPage = () => {
                   onClick={() => handleSearchIconClick()}
                 />
               </div>
-              <ArticleMenu isShowing={isShowing} articlesFound={articlesFound} />
+              <ArticleMenu 
+                isShowing={isShowing}
+                articlesFound={articlesFound}
+                closeArticleMenu={handleArticleMenuClose}
+              />
             </div>
             <div className={styles.featuredArticles}>
               <h1>Featured articles</h1>
 
-              {articles.length !== 0 ? articles.map((article, index) => <Article
+              {articles.length !== 0 ? articles.map((article) => <Article
                 key={article.id}
                 id={article.id}
                 author={article.author}

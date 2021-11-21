@@ -3,7 +3,7 @@ $postImageHeight: 150px;
 
 .container {
   width: 60%;
-  padding: 1rem;
+  padding: 1rem 0;
   border-bottom: 1px #ced4da solid;
   display: flex;
   flex-direction: column;
@@ -38,6 +38,7 @@ $postImageHeight: 150px;
   }
 
   .introduction {
+    cursor: pointer;
     width: 100%;
     display: flex;
     :first-child {
@@ -50,10 +51,9 @@ $postImageHeight: 150px;
 
     .introductionText {
       width: calc(100% - $postImageWidth);
-      height: 150px;
       display: flex;
       flex-direction: column;
-      text-align: justify;
+      text-align: left;
       h2 {
         margin: 0;
       }
@@ -69,13 +69,10 @@ $postImageHeight: 150px;
     justify-content: space-between;
     align-items: center;
     div {
-      margin-right: 10px;
-      display: flex;
-      flex-direction: row;
-      
+      margin-right: 10px;      
     }
     h5 {
-      text-align: end;
+      text-align: justify;
       font-weight: inherit;
       margin: 0;
     }
@@ -104,26 +101,8 @@ $postImageHeight: 150px;
       }
     }
   }
-  @media screen and (max-width: 570px) {
-    width: 100%;
-    .introduction {
-      width: 100%;
-      display: flex;
-      .postImage {
-        width: 250px;
-        height: 150px;
-      }
-
-      .introductionText {
-        width: 40%;
-      }
-    }
-  }
   @media screen and (max-width: 500px) {
-    width: 90%;
-    .header {
-      justify-content: center;
-    }
+    width: 100%;
 
     .introduction {
       width: 100%;
@@ -132,14 +111,32 @@ $postImageHeight: 150px;
       align-items: center;
       .postImage {
         margin: 0;
-        width: 250px;
+        width: 100%;
+        height: 200px;
+      }
+      .introductionText {
+        width: 100%;
+      }
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    width: 100%;
+
+    .introduction {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .postImage {
+        margin: 0;
+        width: 100%;
         height: $postImageHeight;
       }
       .introductionText {
-        width: 250px;
+        width: 100%;
       }
     }
-    
   }
 }
 
