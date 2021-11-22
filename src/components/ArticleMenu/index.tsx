@@ -17,7 +17,7 @@ export function ArticleMenu(props: ArticleMenuProps) {
         onRequestClose={props.closeArticleMenu}
         ariaHideApp={false}
         className={styles.menu}
-        style={{overlay: {overflowY: 'hidden', background: 'none'}}}
+        style={{overlay: {overflow: 'hidden', background: 'none'}}}
       >
         {props.articlesFound !== [] ? props.articlesFound.map((article) =>
           <ArticleMenuItem

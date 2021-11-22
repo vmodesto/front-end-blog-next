@@ -35,7 +35,7 @@ export function Article(
       <div
         className={styles.introduction}
         onClick={() => router.push(
-          {pathname: `/article/[id]/[id]`}, `/article/${id}/${author.id}`, {shallow: true}
+          {pathname: `/article/[id]`}, `/article/${id}`, {shallow: true}
         )}
       >
         <img className={styles.postImage} src={thumbnail} alt="ReactImage" />

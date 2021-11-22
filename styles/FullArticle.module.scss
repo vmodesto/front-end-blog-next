@@ -3,17 +3,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  
+
   #thumbnail {
     display: flex;
     align-self: center;
     width: 1000px;
     height: 400px;
   }
-  .content {
-    width: 90%;
+  div {
+    width: 100%;
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .content {
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+    }
+  
   }
-
+  
   @media screen and (max-width: 1000px) {
     #thumbnail {
       width: 100%;
