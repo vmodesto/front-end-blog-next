@@ -19,6 +19,7 @@ export interface ArticleProps {
   id: string,
   thumbnail: string,
   title: string,
+  content?: string,
   description: string,
   createdAt: string,
   topics: string[]
@@ -115,6 +116,7 @@ const Home: NextPage = () => {
               {articles.length !== 0 ? articles.map((article) => <Article
                 key={article.id}
                 id={article.id}
+                content={article.content}
                 author={article.author}
                 thumbnail={article.thumbnail}
                 title={article.title}

@@ -46,8 +46,14 @@
     align-items: center;
 
     h1 {
-      width: 90%;
-      text-align: justify;
+      width: 600px;
+      text-align: left;
+    }
+
+    @media screen and (max-width: 740px) {
+      h1 {
+        width: 80%;
+      }
     }
     @media screen and (max-width: 500px) {
       width: 90%;

@@ -29,10 +29,10 @@ export function Header(){
       <div className={styles.container}>
         <h1>Blog</h1>
         <ul className={styles.menu}>
-          {isLogged === false && <Link href="auth"><li className={styles.item}>Sign In</li></Link>}
+          {isLogged === false && <Link href="/auth"><li className={styles.item}>Sign In</li></Link>}
           <Link href="/"><li className={styles.item}>Home</li></Link>
-          <li className={styles.item}><a href="new_article">New Article</a></li>
-          <li className={styles.item}><a href="profile">Profile</a></li>
+          <Link href="/new_article"><li className={styles.item}>New Article</li></Link>
+          <Link href="/profile"><li className={styles.item}>Profile</li></Link>
         </ul>
         {menuActive !== true
           ? 

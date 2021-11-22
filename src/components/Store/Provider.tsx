@@ -8,10 +8,12 @@ interface StoreProviderProps {
 
 const StoreProvider = ({ children }: StoreProviderProps) => {
     const [userData, setUserData] = useStorage('userData');
+    const [content, setContent] = useStorage('content');
+    const [articleId, setArticleId] = useStorage('');
 
     return (
         <Context.Provider
-            value={{userData, setUserData}}
+            value={{userData, setUserData, content, setContent, articleId, setArticleId}}
         >
             {children}
         </Context.Provider>

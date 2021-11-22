@@ -1,10 +1,11 @@
 import router, { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import api from "../../api/api";
 import { blogArticleUrl } from "../../shared/api_endpoints";
 import styles from '../../../styles/FullArticle.module.scss';
 import ReactMarkdown from "react-markdown";
 import { Header } from "../../components/Header";
+import StoreContext from "../../components/Store/Context";
 
 interface FullArticle {
   author: {
@@ -22,7 +23,9 @@ interface FullArticle {
 }
 
 export default function Article() {
-  const [contentConverted, setContentConverted] = useState<string>('');
+  const [contentConverted, setContentConverted] = useState('');
+  const {content} = useContext(StoreContext);
+  const {articleId} = useContext(StoreContext);
   const [article, setArticle] = useState<FullArticle>({
     author: {
       name: "",
@@ -30,7 +33,7 @@ export default function Article() {
       id: ""
     },
     topics: [],
-    content: '',
+    content: "",
     createdAt: "",
     description: "",
     id: "",
@@ -41,30 +44,36 @@ export default function Article() {
 
   useEffect(() => {
       getArticle();
+      getContent();
   }, [])
 
-  const getArticle = () => {
-    api.get(
-      `${blogArticleUrl}/articles/show/939e06cc-9cdb-478b-8caf-0e66c2eaaa80`)
-      .then((response: any) => setArticle(response.data));
+  const getArticle = async () => {
+    await api.get(
+      `${blogArticleUrl}/articles/show/${articleId}`)
+      .then(function(response: any) {
+        setArticle(response.data);
+    })
   }
-
-  const getContent = () => {
-    api.get(article.content) 
+  const getContent = async () => {
+    await api.get(content) 
     .then((response: any) => setContentConverted(response.data))
   }
-  getContent();
+
   return (
     <>
       <Header />
-
       <div className={styles.container}>
         <img 
           src={article?.thumbnail}
           alt="Thumbnail"
           id={styles.thumbnail}
         />
-        <div>
+
+        <div className={styles.author}>
+          <img src={article.author.avatar} className={styles.avatar}/>
+          <h2 className={styles.authorName}>{article.author.name}</h2>
+        </div>
+        <div className={styles.markdownContainer}>
           <ReactMarkdown
             className={styles.content}
             children={contentConverted}
