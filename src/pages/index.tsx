@@ -62,7 +62,6 @@ const Home: NextPage = () => {
   return (
     
     <>
-    {console.log(articlesFound)}
       {/* {userData === null && pageIndex === 0 &&
           <div>
             <div className={styles.introductionContainer}>

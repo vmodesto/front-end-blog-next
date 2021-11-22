@@ -10,7 +10,7 @@ export function Header(){
   const {userData} = useContext<any>(StoreContext);
   const [isLogged, setIsLogged] = useState(false);
 
-  useEffect(() => {userIsNotLogged(); console.log(isLogged)},[])
+  useEffect(() => {userIsNotLogged()},[])
 
   const userIsNotLogged = () => {
     if(userData !== null){
