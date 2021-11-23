@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
 const StoreContext = createContext({
-    content: "",
-    setContent: (content: any) => {},
+    articleContent: "",
+    setArticleContent: (content: any) => {},
     articleId: "",
     setArticleId: (id: any) => {},
     userData: null,

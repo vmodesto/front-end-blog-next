@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 
 import React, { useContext, useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { ClipLoader } from 'react-spinners';
 import styles from '../../styles/Home.module.scss';
 import api from '../api/api';
 import { Article } from '../components/Article';
@@ -9,6 +10,7 @@ import { ArticleMenu } from '../components/ArticleMenu';
 import { Header } from '../components/Header';
 import StoreContext from '../components/Store/Context';
 import { blogArticleUrl } from '../shared/api_endpoints';
+import timeout from '../utils/timeout';
 
 export interface ArticleProps {
   author: {
@@ -27,32 +29,72 @@ export interface ArticleProps {
 
 const Home: NextPage = () => {
   const { userData } = useContext<any>(StoreContext);
+  const { articleId } = useContext(StoreContext);
+  const [haveVisitedArticle, setHaveVisitedArticles] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
+  const [lastArticleVisited, setLastArticleVisisted] = useState<ArticleProps>({
+    author: {avatar: "", id: "", name: ""},
+    createdAt: "",
+    content: "",
+    description: "",
+    id: "",
+    thumbnail: "",
+    title: "",
+    topics: []
+  });
   const [articles, setArticles] = useState<ArticleProps[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
   const [articlesFound, setArticlesFound] = useState<ArticleProps[]>([]);
   const [isShowing, setIsShowing] = useState(false);
 
   useEffect(() => {
+    userVisitedArticles();
+    getArticles();
+    getLastArticleVisited();
+  }, []);
+
+  const userVisitedArticles = () => {
+    if(articleId !== null) {
+      setHaveVisitedArticles(true);
+    }
+  }
+
+  const getArticles = () => {
     api.get(blogArticleUrl + '/articles/list-approved')
       .then(function (response: any) {
         const data: ArticleProps[] = response.data;
         setArticles(data);
       })
-  }, []);
+  }
+
+  const getLastArticleVisited = async () => {
+    try{
+      const response: any = 
+      await api.get(`${blogArticleUrl}/articles/show/${articleId}`)
+      setLastArticleVisisted(response.data);
+    } catch (error) {
+      setHaveVisitedArticles(false);
+    }
+  }
 
   const handleSearchInputChange = async (e: React.FormEvent<HTMLInputElement>) => {
     setSearchInput(e.currentTarget.value);
   }
 
   const handleSearchIconClick = async () => {
-    try {
     const response: any = await api.get(
     `${blogArticleUrl}/articles/search?most_clap=false&searching=${searchInput}`)
     setArticlesFound(response.data);
     setIsShowing(true);
-  } catch (error: any){
-    console.log(error.response)
+    return;
+  }
+
+  const handleKeyPress = async (e:any) => {
+    if(e.key === 'Enter'){
+      const response: any = await api.get(
+      `${blogArticleUrl}/articles/search?most_clap=false&searching=${searchInput}`)
+      setArticlesFound(response.data);
+      setIsShowing(true);
     }
   }
 
@@ -98,21 +140,37 @@ const Home: NextPage = () => {
                   placeholder="Search for a article..."
                   value={searchInput}
                   onChange={handleSearchInputChange}
+                  onKeyPress={(e: any) => handleKeyPress(e)}
                 />
                 <AiOutlineSearch 
                   className={styles.searchIcon}
                   onClick={() => handleSearchIconClick()}
                 />
               </div>
-              <ArticleMenu 
+              <ArticleMenu
                 isShowing={isShowing}
                 articlesFound={articlesFound}
                 closeArticleMenu={handleArticleMenuClose}
               />
             </div>
+            {haveVisitedArticle === true &&
+              <div className={styles.featuredArticles}>
+                <h1>Last article visited</h1>
+                <Article
+                  key={lastArticleVisited.id}
+                  id={lastArticleVisited.id}
+                  content={lastArticleVisited.content}
+                  author={lastArticleVisited.author}
+                  thumbnail={lastArticleVisited.thumbnail}
+                  title={lastArticleVisited.title}
+                  description={lastArticleVisited.description}
+                  topics={lastArticleVisited.topics}
+                  createdAt={lastArticleVisited.createdAt}
+                />
+              </div>
+            }
             <div className={styles.featuredArticles}>
               <h1>Featured articles</h1>
-
               {articles.length !== 0 ? articles.map((article) => <Article
                 key={article.id}
                 id={article.id}
@@ -123,7 +181,16 @@ const Home: NextPage = () => {
                 description={article.description}
                 topics={article.topics}
                 createdAt={article.createdAt}
-              />) : <h2>Empty list</h2>}
+              />)
+              : 
+              <ClipLoader 
+                css="margin-top: 2rem;"
+                color="#fca311"
+                loading={true}
+              />
+              }
+
+              
             </div>
           </div>
         {/* </>

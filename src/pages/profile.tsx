@@ -32,7 +32,7 @@ export default function Profile() {
     newPassword: ""
   });
   useEffect(() => {
-    if(userData !== null) {
+    if (userData !== null) {
       setUser(userData.user);
       console.log(user)
       console.log(userData)
@@ -57,15 +57,15 @@ export default function Profile() {
         formData,
         { headers: { Authorization: `Bearer ${userData?.token}` } })
       const response = await api.put(blogUserUrl + '/users/update',
-      {
-        "email": user.email,
-        "name": user.name,
-        "current_password": user.currentPassword,
-        "new_password": user.newPassword
-      },{headers: {Authorization: `Bearer ${userData?.token}`}});
+        {
+          "email": user.email,
+          "name": user.name,
+          "current_password": user.currentPassword,
+          "new_password": user.newPassword
+        }, { headers: { Authorization: `Bearer ${userData?.token}` } });
       setResponseMessage("Updated profile!");
 
-      setUserData({token: userData.token, user: response.data});
+      setUserData({ token: userData.token, user: response.data });
       setIsLoading(false);
       router.reload();
     } catch (error: any) {
@@ -80,7 +80,7 @@ export default function Profile() {
   }
 
   const handleLogoutClick = () => {
-    
+
   }
 
   const redirectToSignIn = () => {
@@ -90,107 +90,110 @@ export default function Profile() {
   return (
     <>
       {userData === null ? <>{redirectToSignIn()}</> :
-      <>
-      <Header />
-      {responseMessage !== "" &&
-        <small
-          className={
-            responseMessage === "Updated profile!"
-              ? "responseMessageSuccess"
-              : "responseMessageFailure"
+        <>
+          <Header />
+          {responseMessage !== "" &&
+            <small
+              className={
+                responseMessage === "Updated profile!"
+                  ? "responseMessageSuccess"
+                  : "responseMessageFailure"
+              }
+            >{responseMessage}
+            </small>
           }
-        >{responseMessage}
-        </small>
-      }
-      <div className={styles.container}>
-        <div className={styles.avatarContainer}>
-          {user.avatar === null
-            ? <IoMdPerson className={styles.avatarIcon} />
-            : <img
-              className={styles.profileImage}
-              src={user.avatar !== null ? user.avatar : URL.createObjectURL(user.avatar)}
-            />}
-          <div className={styles.editAvatarCircle}>
-            <MdModeEditOutline className={styles.editAvatarIcon} />
-            <input
-              type="file"
-              id="avatar"
-              className={styles.inputAvatar}
-              onChange={() => handleUserChange}
-            />
-          </div>
-        </div>
-        <div className={styles.inputGroup}>
-          <h2>Edit profile</h2>
-          <label>Email</label>
-          <input
-            type="email"
-            id="email"
-            disabled={isDisabled}
-            value={user.email || ''}
-            onChange={() => handleUserChange}
-          />
-          <label>Name</label>
-          <input
-            type="text"
-            id="name"
-            disabled={isDisabled}
-            value={user.name || ''}
-            onChange={() => handleUserChange}
-          />
-          <label>Current Password</label>
-          <input
-            id="currentPassword"
-            disabled={isDisabled}
-            value={user.currentPassword || ''}
-            onChange={() => handleUserChange}
-          />
-          <label>New password</label>
-          <input
-            id="newPassword"
-            className={styles.password}
-            disabled={isDisabled}
-            value={user.newPassword || ''}
-            onChange={handleUserChange}
-          />
-          <div className={styles.editButtons}>
-            <button
-              id={styles.editProfileButton}
-              onClick={() => setIsDisabled(false)}>
-              Edit
-            </button>
-            {isLoading === false ?
-              <button
-                id={styles.saveChangesButton}
-                onClick={handleSaveChanges}
-              >
-                Update
-              </button>
-              :
-              <ClipLoader
-                css="margin-top: 2rem;"
-                color="#fca311"
-                loading={isLoading}
+          <div className={styles.container}>
+            <div className={styles.avatarContainer}>
+              {user.avatar === null
+                ? <IoMdPerson className={styles.avatarIcon} />
+                : <img
+                  className={styles.profileImage}
+                  src={user.avatar !== null ? user.avatar : URL.createObjectURL(user.avatar)}
+                />}
+              <div className={styles.editAvatarCircle}>
+                <MdModeEditOutline className={styles.editAvatarIcon} />
+                <input
+                  type="file"
+                  id="avatar"
+                  className={styles.inputAvatar}
+                  onChange={() => handleUserChange}
+                />
+              </div>
+            </div>
+            <div className={styles.inputGroup}>
+              <h2>Edit profile</h2>
+              <label>Email</label>
+              <input
+                type="email"
+                id="email"
+                disabled={isDisabled}
+                value={user.email || ''}
+                onChange={() => handleUserChange}
               />
-            }
+              <label>Name</label>
+              <input
+                type="text"
+                id="name"
+                disabled={isDisabled}
+                value={user.name || ''}
+                onChange={() => handleUserChange}
+              />
+              <label>Current Password</label>
+              <input
+                id="currentPassword"
+                disabled={isDisabled}
+                value={user.currentPassword || ''}
+                onChange={() => handleUserChange}
+              />
+              <label>New password</label>
+              <input
+                id="newPassword"
+                className={styles.password}
+                disabled={isDisabled}
+                value={user.newPassword || ''}
+                onChange={handleUserChange}
+              />
+              <div className={styles.editButtons}>
+                <button
+                  id={styles.editProfileButton}
+                  onClick={() => setIsDisabled(false)}>
+                  Edit
+                </button>
+                {isLoading === false ?
+                  <button
+                    id={styles.saveChangesButton}
+                    onClick={handleSaveChanges}
+                  >
+                    Update
+                  </button>
+                  :
+                  <ClipLoader
+                    css="margin-top: 2rem;"
+                    color="#fca311"
+                    loading={isLoading}
+                  />
+                }
+              </div>
+            </div>
+            <div className={styles.inputGroup}>
+              <h2>My articles</h2>
+            </div>
+            <button id={styles.logout} onClick={openModal}>Logout</button>
+            <ReactModal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            className={styles.logoutModal}
+            ariaHideApp={false}
+          >
+            <h3>Are you sure?</h3>
+            <div>
+              <button onClick={() => { setUserData(null); router.push('/') }}>Yes</button>
+              <button onClick={() => closeModal()}>No</button>
+            </div>
+          </ReactModal>
           </div>
-        </div>
-        <div className={styles.inputGroup}>
-          <h2>My articles</h2>
-        </div>
-        <button id={styles.logout} onClick={openModal}>Logout</button>
-      </div>
-      <ReactModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        className={styles.logoutModal}
-        ariaHideApp={false}
-      >
-        <h3>Are you sure?</h3>
-        <button onClick={() => setUserData(null)}>Yes</button>
-        <button onClick={() => closeModal()}>No</button>
-      </ReactModal>
-      </>
+          
+        </>
       }
     </>
   )

@@ -19,10 +19,11 @@ export function ArticleMenu(props: ArticleMenuProps) {
         className={styles.menu}
         style={{overlay: {overflow: 'hidden', background: 'none'}}}
       >
-        {props.articlesFound !== [] ? props.articlesFound.map((article) =>
+        {props.articlesFound.length !== 0 ? props.articlesFound.map((article) =>
           <ArticleMenuItem
             key={article.id}
             id={article.id}
+            content={article.content}
             author={article.author}
             thumbnail={article.thumbnail}
             title={article.title}
@@ -30,7 +31,8 @@ export function ArticleMenu(props: ArticleMenuProps) {
             createdAt={article.createdAt}
             topics={article.topics}
           />
-        ) : <strong>Not found</strong>}
+        ) : <h5 className={styles.articleNotFound}> Article Not found</h5>}
+        
       </ReactModal>
 
   )

@@ -27,10 +27,9 @@ export function Header(){
   return (
     <>
       <div className={styles.container}>
-        <h1>Blog</h1>
+        <Link href="/"><h1>Blog</h1></Link>
         <ul className={styles.menu}>
           {isLogged === false && <Link href="/auth"><li className={styles.item}>Sign In</li></Link>}
-          <Link href="/"><li className={styles.item}>Home</li></Link>
           <Link href="/new_article"><li className={styles.item}>New Article</li></Link>
           <Link href="/profile"><li className={styles.item}>Profile</li></Link>
         </ul>

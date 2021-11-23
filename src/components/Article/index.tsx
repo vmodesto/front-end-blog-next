@@ -19,7 +19,7 @@ export function Article(
   }: ArticleProps
   ) {
   const formattedDate = new Date(createdAt);
-  const {setContent} = useContext(StoreContext);
+  const {setArticleContent} = useContext(StoreContext);
   const {setArticleId} = useContext(StoreContext);
   return (
     <div className={styles.container}>
@@ -44,7 +44,7 @@ export function Article(
           `/article/${id}`,
           {shallow: true}
         );
-        setContent(content)
+        setArticleContent(content);
         setArticleId(id);
       }
       }

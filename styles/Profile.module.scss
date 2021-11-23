@@ -89,13 +89,6 @@
       width: 90%;
     }
   }
-  .logoutModal {
-    height: 60%;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-  }
 }
 
 #editProfileButton, #saveChangesButton, #logout {
@@ -111,5 +104,49 @@
 
   &:hover {
     filter: brightness(0.9);
+  }
+}
+
+.logoutModal {
+  position: absolute;
+  top: 35%;
+  bottom: 35%;
+  justify-content: center;
+  align-content: center;
+  right: 250px;
+  left: 250px;
+  background: white;
+  border-radius: 5px;
+  border: 1px black solid;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  text-align: center;
+  div {
+    display: grid;
+    grid-template-columns: auto auto;
+    button {
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      margin: 0.5rem;
+      padding: 1rem 0.5rem;
+      &:hover {
+        filter: brightness(0.8);
+      }
+    }
+
+    :first-child {
+      background: #e5989b;
+    }
+    :last-child {
+      background: #14213d;
+    }
+  }
+  @media screen and (max-width: 900px){
+    right: 25%;
+    left: 25%;
   }
 }

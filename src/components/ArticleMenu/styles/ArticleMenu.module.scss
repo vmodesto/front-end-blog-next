@@ -6,6 +6,10 @@
   background: rgba($color: #E5E5E5, $alpha: 0.9);
   width: 405px;
   border-radius: 0 0 10px 10px;
+  h5 {
+    width: 100%;
+    text-align: center;
+  }
   @media screen and (max-width: 450px) {
     position: none;
     align-self: center;
@@ -14,11 +18,6 @@
     width: 90%;
   }
 }
-
-@media screen and (max-width: 450px){
-  
-}
-
 
 .container {
   cursor: pointer;

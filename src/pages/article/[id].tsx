@@ -6,6 +6,8 @@ import styles from '../../../styles/FullArticle.module.scss';
 import ReactMarkdown from "react-markdown";
 import { Header } from "../../components/Header";
 import StoreContext from "../../components/Store/Context";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { redirect } from "next/dist/server/api-utils";
 
 interface FullArticle {
   author: {
@@ -19,13 +21,15 @@ interface FullArticle {
   content: any,
   description: string,
   createdAt: string,
-  topics: string[]
+  topics: string[],
+  amountClaps: number,
 }
 
 export default function Article() {
   const [contentConverted, setContentConverted] = useState('');
-  const {content} = useContext(StoreContext);
-  const {articleId} = useContext(StoreContext);
+  const {userData, articleId, setArticleContent, articleContent} = useContext<any>(StoreContext);
+  const [clap, setClap] = useState(false);
+  const [clapMessage, setClapMessage] = useState('');
   const [article, setArticle] = useState<FullArticle>({
     author: {
       name: "",
@@ -38,9 +42,9 @@ export default function Article() {
     description: "",
     id: "",
     thumbnail: "",
-    title: ""
+    title: "",
+    amountClaps: 0,
   });
-  const {query}: any = useRouter();
 
   useEffect(() => {
       getArticle();
@@ -48,15 +52,32 @@ export default function Article() {
   }, [])
 
   const getArticle = async () => {
-    await api.get(
-      `${blogArticleUrl}/articles/show/${articleId}`)
-      .then(function(response: any) {
-        setArticle(response.data);
-    })
+    try {
+      await api.get(
+        `${blogArticleUrl}/articles/show/${articleId}`)
+        .then(function(response: any) {
+          setArticle(response.data);
+      })
+    } catch {
+      router.push('/');
+    }
   }
   const getContent = async () => {
-    await api.get(content) 
+    await api.get(articleContent)
     .then((response: any) => setContentConverted(response.data))
+  }
+  const clapArticle = () => {
+    if(userData === null){
+      setClapMessage('Sign In or Sign up to like a article');
+      return;
+    }
+    setClapMessage('');
+    setClap(true);
+    api.post(
+      blogArticleUrl + `/articles/clap`,
+      {article_id: articleId, clapped_hands: clap},
+      {headers: {Authorization: `Bearer ${userData?.token}`}}
+    )
   }
 
   return (
@@ -78,6 +99,18 @@ export default function Article() {
             className={styles.content}
             children={contentConverted}
           />
+        </div>
+        <div className={styles.claps}>
+          {clap === false ? <AiOutlineLike 
+            id={styles.clapIcon}
+            onClick={() => clapArticle()}
+          /> 
+          : 
+          <AiFillLike 
+            id={styles.clapIcon}
+          />}
+          <h3>{article.amountClaps}</h3>
+          <small>{clapMessage}</small>
         </div>
       </div>
     </>

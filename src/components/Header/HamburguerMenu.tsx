@@ -10,7 +10,6 @@ export function HamburguerMenu({isLogged}: HamburguerMenuProps) {
   return (
       <ul className={styles.hamburguerMenu}>
         {isLogged === false && <li><a href="auth">Sign In</a></li>}
-        <li><a href="/">Home</a></li>
         <li><a href="new_article">New Article</a></li>
         <li><a href="profile">Profile</a></li>
       </ul>
