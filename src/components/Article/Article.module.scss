@@ -4,7 +4,7 @@ $postImageHeight: 150px;
 .container {
   width: 600px;
   padding-bottom: 1rem;
-  border-bottom: 1px #ced4da solid;
+  border-bottom: 1px rgba($color: #ced4da, $alpha: 0.6) solid;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,15 +41,15 @@ $postImageHeight: 150px;
     cursor: pointer;
     width: 100%;
     display: flex;
-    :first-child {
-      margin-right: 10px;
-    }
+
     .postImage {
+      border-radius: 5px;
       width: 250px;
-      height: 150px;
+      height: 100%;
     }
 
     .introductionText {
+      margin-left: 10px;
       width: calc(100% - $postImageWidth);
       display: flex;
       flex-direction: column;
@@ -58,25 +58,40 @@ $postImageHeight: 150px;
         margin: 0;
       }
       p {
-        margin: 10px 0;
+        opacity: 0.6;
+        font-weight: 500;
+      }
+    }
+    .text {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      height: 100%;
+      justify-content: flex-start;
+    }
+    .info {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      div {
+        display: flex;
+        div {
+          margin-left: 10px;
+        }
+      }
+      small {
+        text-align: justify;
+        font-style: italic;
+        font-weight: 500;
+        margin-right: 10px;
       }
     }
   }
 
-  .info {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    div {
-      margin-right: 10px;      
-    }
-    h5 {
-      text-align: justify;
-      font-weight: inherit;
-      margin: 0;
-    }
-  }
+  
   
   @media screen and (max-width: 900px) {
     width: 70%;

@@ -3,7 +3,7 @@
   top: 100px;
   margin-top: 4rem;
   right: 2rem;
-  background: rgba($color: #E5E5E5, $alpha: 0.9);
+  background: rgba($color: #E5E5E5, $alpha: 0.8);
   width: 405px;
   border-radius: 0 0 10px 10px;
   h5 {
@@ -17,6 +17,9 @@
     left: 5%;
     width: 90%;
   }
+  :last-child {
+    border: none;
+  }
 }
 
 .container {
@@ -25,12 +28,13 @@
   padding: 0.5rem;
   display: flex;
   align-items: flex-start;
-  border-bottom: 1px rgba($color: #0000, $alpha: 0.15) solid;
+  border-bottom: 1px rgba($color: #0000, $alpha: 0.08) solid;
   &:hover {
     background: rgba($color: #E5E5E5, $alpha: 0.6);
     filter: brightness(0.8);
   }
   .thumbnail {
+    border-radius: 5px;
     width: 80px;
     height: 100%;
   }

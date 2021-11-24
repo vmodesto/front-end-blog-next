@@ -51,15 +51,17 @@ export function Article(
       >
         <img className={styles.postImage} src={thumbnail} alt="ReactImage" />
         <div className={styles.introductionText}>
-          <h2>{title}</h2>
-          <p className={styles.description}>{description}</p>
+          <div className={styles.text}>
+            <h2>{title}</h2>
+            <p className={styles.description}>{description}</p>
+          </div>
+          <div className={styles.info}>
+            <small>{formattedDate.toDateString()}</small>
+            <div>
+              {topics.map((topic: any) => <ContentType key={topic.name} type="topic" name={topic?.name} />)}
+            </div>
+          </div>
         </div>
-      </div>
-      <div className={styles.info}>
-        <div>
-          {topics.map((topic: any) => { return <ContentType key={topic.name} type="topic" name={topic?.name} /> })}
-        </div>
-        <h5>{formattedDate.toDateString()}</h5>
       </div>
     </div>
   )

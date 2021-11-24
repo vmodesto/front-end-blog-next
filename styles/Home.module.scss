@@ -15,8 +15,10 @@
       justify-content: space-between;
       font-weight: bold;
       border: 1px #fca311 solid;
+      border-radius: 5px;
 
       input {
+        background: none;
         border: none;
         padding: 10px 10px;
         outline: none;

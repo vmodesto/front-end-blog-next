@@ -114,6 +114,7 @@ const NewArticle: NextPage = () => {
     if (articleTopics.length === 0) {
       return setTopicErrorMessage("Choose a topic");
     }
+    setLoading(true);
     setTitleErrorMessage('');
     setTopicErrorMessage('');
     const topicsIds = articleTopics.map(topic => topic.id);
@@ -121,7 +122,7 @@ const NewArticle: NextPage = () => {
       const response: any = await api.post(blogArticleUrl + "/articles/create",
       { 
         title: title,
-        topic_ids: [topicsIds[0]],
+        topic_ids: topicsIds,
         description: description
       }, {headers: { Authorization: `Bearer ${userData?.token}` }})
       setArticleId(response.data.id);
@@ -141,6 +142,7 @@ const NewArticle: NextPage = () => {
         || image.name.endsWith('.jpeg')
         || image.name.endsWith('.png')) {
         formData.append("thumbnail", image);
+        setLoading(true);
         try {
           const response = await api.patch(blogUploadUrl + '/articles/thumbnail/update/' + articleId,
           formData,
@@ -161,20 +163,21 @@ const NewArticle: NextPage = () => {
   const handleStepThreeClick = async () => {
     const formData = new FormData();
     if (image) {
-      if (content.length < 10) {
+      if (content.length < 500) {
         return setContentErrorMessage('The article must be at least 500 words.');
       } else {
         setContentErrorMessage('');
         const file = new File([content], "content.md", { type: "text/plain"})
         formData.append("content", file);
-        console.log(file);
+        setLoading(true);
         try {
           await api.patch(blogUploadUrl + '/articles/content/update/' + articleId, 
           formData, { headers: { Authorization: `Bearer ${userData?.token}` } })
+          router.push('/');
         } catch (error: any) {
-          console.log(error.response);
+          setContentErrorMessage('Failure to add article content');
+          setLoading(false);
         }
-        // setLoading(false);
       }
     }
   }
@@ -208,7 +211,11 @@ const NewArticle: NextPage = () => {
                 className={styles.nextButton}
                 onClick={handleStepOneClick}>Next
               </button> :
-              <ClipLoader css="margin-top: 2rem;" color="#fca311" loading={loading} />
+              <ClipLoader
+                css="margin-top: 2rem;"
+                color="#fca311"
+                loading={loading}
+              />
             }
           </>
         }
@@ -218,21 +225,18 @@ const NewArticle: NextPage = () => {
               imageErrorMessage={imageErrorMessage}
               handleImageFileChange={handleImageFileChange}
             />
-            <div className={styles.pageButtons}>
+            {loading === false
+              ?
               <button
                 className={styles.nextButton}
-                onClick={() => { setPageIndex(0); setErrorMessage('') }}>
-                Back
-              </button>
-              {loading === false
-                ?
-                <button
-                  className={styles.nextButton}
-                  onClick={handleStepTwoClick}>Create
-                </button> :
-                <ClipLoader css="margin-top: 2rem" color="#fca311" loading={loading} />
-              }
-            </div>
+                onClick={handleStepTwoClick}>Create
+              </button> :
+              <ClipLoader
+                css="margin-top: 2rem"
+                color="#fca311"
+                loading={loading}
+              />
+            }
           </>
         }
       </div>
@@ -245,19 +249,17 @@ const NewArticle: NextPage = () => {
               handleContentChange={handleContentChange}
             />
             <div className={styles.pageButtons}>
-              <button
-                className={styles.nextButton}
-                onClick={() => { setPageIndex(1); setErrorMessage('') }}>
-                Back
-              </button>
-
               {loading === false
                 ?
                 <button
                   className={styles.nextButton}
                   onClick={handleStepThreeClick}>Create
                 </button> :
-                <ClipLoader css="margin-top: 2rem;" color="#fca311" loading={loading} />
+                <ClipLoader
+                  css="margin-top: 2rem;"
+                  color="#fca311"
+                  loading={loading}
+                />
               }
             </div>
           </>

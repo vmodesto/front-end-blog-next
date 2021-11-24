@@ -7,7 +7,6 @@ import ReactMarkdown from "react-markdown";
 import { Header } from "../../components/Header";
 import StoreContext from "../../components/Store/Context";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
-import { redirect } from "next/dist/server/api-utils";
 
 interface FullArticle {
   author: {
@@ -27,8 +26,8 @@ interface FullArticle {
 
 export default function Article() {
   const [contentConverted, setContentConverted] = useState('');
-  const {userData, articleId, setArticleContent, articleContent} = useContext<any>(StoreContext);
-  const [clap, setClap] = useState(false);
+  const {userData, articleId, articleContent} = useContext<any>(StoreContext);
+  const [clap, setClap] = useState<boolean>(false);
   const [clapMessage, setClapMessage] = useState('');
   const [article, setArticle] = useState<FullArticle>({
     author: {
@@ -66,16 +65,18 @@ export default function Article() {
     await api.get(articleContent)
     .then((response: any) => setContentConverted(response.data))
   }
-  const clapArticle = () => {
+
+  const clapArticle = (value: boolean) => {
+    
     if(userData === null){
       setClapMessage('Sign In or Sign up to like a article');
       return;
     }
+    console.log(value);
     setClapMessage('');
-    setClap(true);
     api.post(
       blogArticleUrl + `/articles/clap`,
-      {article_id: articleId, clapped_hands: clap},
+      {article_id: articleId, clapped_hands: value},
       {headers: {Authorization: `Bearer ${userData?.token}`}}
     )
   }
@@ -101,13 +102,15 @@ export default function Article() {
           />
         </div>
         <div className={styles.claps}>
-          {clap === false ? <AiOutlineLike 
+          {clap === false && <AiOutlineLike 
             id={styles.clapIcon}
-            onClick={() => clapArticle()}
+            onClick={() => {clapArticle(true); setClap(true);}}
           /> 
-          : 
+          }
+          { clap === true &&
           <AiFillLike 
             id={styles.clapIcon}
+            onClick={() => {clapArticle(false); setClap(false)}}
           />}
           <h3>{article.amountClaps}</h3>
           <small>{clapMessage}</small>

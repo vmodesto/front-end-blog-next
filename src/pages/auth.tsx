@@ -8,6 +8,7 @@ import timeout from '../utils/timeout';
 import api from '../api/api';
 import { blogUserUrl } from '../shared/api_endpoints';
 import styles from '../../styles/auth.module.scss';
+import Link from 'next/link';
 
 type User = {
 	name: string,
@@ -120,7 +121,7 @@ export default function Auth() {
 				</small>
 			}
 			<div>
-				<h1 className={styles.title}>Blog</h1>
+				<Link href="/"><h1 className={styles.title}>Blog</h1></Link>
 				{pageIndex ===0 
 				? 
 				<SignIn
