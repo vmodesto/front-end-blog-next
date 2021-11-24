@@ -42,7 +42,8 @@
       width: 90%;
     }
   }
-  .featuredArticles {
+  .articlesContainer {
+    margin-top: 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,6 +51,15 @@
     h1 {
       width: 600px;
       text-align: left;
+      margin: 0;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+    }
+
+    @media screen and (max-width: 900px) {
+      h1 {
+        width: 70%;
+      }
     }
 
     @media screen and (max-width: 740px) {
@@ -57,10 +67,19 @@
         width: 80%;
       }
     }
+
+    @media screen and (max-width: 650px) {
+      h1 {
+        width: 90%;
+      }
+    }
     @media screen and (max-width: 500px) {
       width: 90%;
       align-self: center;
       align-items: flex-start;
+      .searchBar {
+        border-radius: 5px;
+      }
     }
   }
 

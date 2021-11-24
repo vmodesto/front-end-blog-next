@@ -154,7 +154,7 @@ const Home: NextPage = () => {
               />
             </div>
             {haveVisitedArticle === true &&
-              <div className={styles.featuredArticles}>
+              <div className={styles.articlesContainer}>
                 <h1>Last article visited</h1>
                 <Article
                   key={lastArticleVisited.id}
@@ -169,7 +169,7 @@ const Home: NextPage = () => {
                 />
               </div>
             }
-            <div className={styles.featuredArticles}>
+            <div className={styles.articlesContainer}>
               <h1>Featured articles</h1>
               {articles.length !== 0 ? articles.map((article) => <Article
                 key={article.id}

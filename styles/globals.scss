@@ -19,11 +19,7 @@ body {
     border: 1px black solid;
     font-size: 1rem;
   }
-
-  .overflowHidden {
-    overflow: hidden;
-  }
-
+  
   .responseMessageFailure, .responseMessageSuccess {
     position:fixed;
     margin-top: 5%;

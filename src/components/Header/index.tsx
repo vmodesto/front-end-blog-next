@@ -9,8 +9,11 @@ export function Header(){
   const [menuActive, setMenuActive] = useState(false)
   const {userData} = useContext<any>(StoreContext);
   const [isLogged, setIsLogged] = useState(false);
+  const [isReviewer, setIsReviewer] = useState(true);
 
-  useEffect(() => {userIsNotLogged()},[])
+  useEffect(() => {
+    userIsNotLogged();
+  },[])
 
   const userIsNotLogged = () => {
     if(userData !== null){
@@ -41,7 +44,9 @@ export function Header(){
         }
       </div>
       {menuActive === true  &&
-        <HamburguerMenu isLogged={isLogged}/>
+        <HamburguerMenu 
+          isLogged={isLogged}
+        />
       }
     </>
   )
