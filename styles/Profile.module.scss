@@ -17,11 +17,6 @@
   .avatarContainer {
     display: flex;
     align-items: flex-end;
-    .avatarIcon {
-      width: 150px;
-      height: 150px;
-      opacity: 0.5;
-    }
 
     .editAvatarCircle {
       display: flex;
@@ -33,6 +28,11 @@
       background: #14213d;
       cursor: pointer;
       transition: filter 0.2s;
+      padding: 1rem;
+      background-image: url('../public/images/edit_avatar.png');
+      background-size: 60% 60%;
+      background-repeat: no-repeat;
+      background-position: center;
 
       &:hover {
         filter: brightness(0.6);
@@ -42,8 +42,12 @@
         background: none;
         border: none;
         cursor: pointer;
+        color: transparent;
       }
-      
+      input {
+        cursor: pointer;
+        border: none;
+      }
 
       .editAvatarIcon {
         width: 25px;
@@ -71,6 +75,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     #saveChangesButton {
       background: #fca311;
     }
@@ -78,6 +83,12 @@
     #editProfileButton {
       background: #14213d;
     }
+    .loadButton {
+      width: 40%;
+      display: flex;
+      justify-content: center;
+    }
+
     @media screen and (max-width: 400px){
       width: 100%;
     }
@@ -113,8 +124,8 @@
   bottom: 35%;
   justify-content: center;
   align-content: center;
-  right: 250px;
-  left: 250px;
+  right: 40%;
+  left: 40%;
   background: white;
   border-radius: 5px;
   border: 1px black solid;
@@ -145,7 +156,11 @@
       background: #14213d;
     }
   }
-  @media screen and (max-width: 900px){
+  @media screen and (max-width: 1200px){
+    right: 30%;
+    left: 30%;
+  }
+  @media screen and (max-width: 600px){
     right: 25%;
     left: 25%;
   }

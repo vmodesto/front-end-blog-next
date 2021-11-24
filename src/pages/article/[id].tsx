@@ -67,12 +67,12 @@ export default function Article() {
   }
 
   const clapArticle = (value: boolean) => {
-    
+    setClap(true)
     if(userData === null){
+      setClap(false);
       setClapMessage('Sign In or Sign up to like a article');
       return;
     }
-    console.log(value);
     setClapMessage('');
     api.post(
       blogArticleUrl + `/articles/clap`,
@@ -85,11 +85,13 @@ export default function Article() {
     <>
       <Header />
       <div className={styles.container}>
-        <img 
-          src={article?.thumbnail}
-          alt="Thumbnail"
-          id={styles.thumbnail}
-        />
+        <div className={styles.thumbnailContainer}>
+          <img 
+            src={article?.thumbnail}
+            alt="Thumbnail"
+            id={styles.thumbnail}
+          />
+        </div>
 
         <div className={styles.author}>
           <img src={article.author.avatar} className={styles.avatar}/>
@@ -104,7 +106,7 @@ export default function Article() {
         <div className={styles.claps}>
           {clap === false && <AiOutlineLike 
             id={styles.clapIcon}
-            onClick={() => {clapArticle(true); setClap(true);}}
+            onClick={() => {clapArticle(true);}}
           /> 
           }
           { clap === true &&

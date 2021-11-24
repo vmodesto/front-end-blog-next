@@ -144,12 +144,11 @@ const NewArticle: NextPage = () => {
         formData.append("thumbnail", image);
         setLoading(true);
         try {
-          const response = await api.patch(blogUploadUrl + '/articles/thumbnail/update/' + articleId,
+          await api.patch(blogUploadUrl + '/articles/thumbnail/update/' + articleId,
           formData,
           { headers: { Authorization: `Bearer ${userData?.token}` } })
-          console.log(response);
+          setLoading(false);
           return setPageIndex(2);
-          
         } catch (error: any) {
           console.log(error.response)
         }

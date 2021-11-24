@@ -1,7 +1,6 @@
 import { Header } from "../components/Header";
 import styles from '../../styles/Profile.module.scss';
 import { IoMdPerson } from "react-icons/io";
-import { MdModeEditOutline } from "react-icons/md";
 import React, { useContext, useEffect, useState } from "react";
 import api from "../api/api";
 import StoreContext from "../components/Store/Context";
@@ -11,7 +10,7 @@ import router from "next/router";
 import ReactModal from "react-modal";
 
 type User = {
-  avatar: any,
+  avatar: string,
   name: string,
   email: string,
   currentPassword: string,
@@ -34,8 +33,6 @@ export default function Profile() {
   useEffect(() => {
     if (userData !== null) {
       setUser(userData.user);
-      console.log(user)
-      console.log(userData)
     }
   }, [])
 
@@ -50,13 +47,16 @@ export default function Profile() {
   }
 
   const handleSaveChanges = async () => {
+    setIsLoading(true);
     const formData = new FormData();
     try {
       formData.append("avatar", user.avatar)
-      await api.patch(blogUploadUrl + '/users/avatar/update',
+      if(user.avatar !== null){
+        await api.patch(blogUploadUrl + '/users/avatar/update',
         formData,
         { headers: { Authorization: `Bearer ${userData?.token}` } })
-      const response = await api.put(blogUserUrl + '/users/update',
+      }
+      await api.put(blogUserUrl + '/users/update',
         {
           "email": user.email,
           "name": user.name,
@@ -65,11 +65,12 @@ export default function Profile() {
         }, { headers: { Authorization: `Bearer ${userData?.token}` } });
       setResponseMessage("Updated profile!");
 
-      setUserData({ token: userData.token, user: response.data });
+      setUserData(null);
       setIsLoading(false);
-      router.reload();
+      router.push('/auth');
     } catch (error: any) {
-      setResponseMessage(error.response.data.error)
+      setResponseMessage(error.response.data.error);
+      setIsLoading(false);
     }
   }
   const openModal = () => {
@@ -79,14 +80,10 @@ export default function Profile() {
     setIsOpen(false);
   }
 
-  const handleLogoutClick = () => {
-
-  }
-
   const redirectToSignIn = () => {
     router.push('/auth');
   }
-
+  
   return (
     <>
       {userData === null ? <>{redirectToSignIn()}</> :
@@ -111,12 +108,12 @@ export default function Profile() {
                   src={user.avatar !== null ? user.avatar : URL.createObjectURL(user.avatar)}
                 />}
               <div className={styles.editAvatarCircle}>
-                <MdModeEditOutline className={styles.editAvatarIcon} />
                 <input
                   type="file"
                   id="avatar"
+                  disabled={isDisabled}
                   className={styles.inputAvatar}
-                  onChange={() => handleUserChange}
+                  onChange={handleUserChange}
                 />
               </div>
             </div>
@@ -128,7 +125,7 @@ export default function Profile() {
                 id="email"
                 disabled={isDisabled}
                 value={user.email || ''}
-                onChange={() => handleUserChange}
+                onChange={handleUserChange}
               />
               <label>Name</label>
               <input
@@ -136,18 +133,20 @@ export default function Profile() {
                 id="name"
                 disabled={isDisabled}
                 value={user.name || ''}
-                onChange={() => handleUserChange}
+                onChange={handleUserChange}
               />
               <label>Current Password</label>
               <input
                 id="currentPassword"
+                type="password"
                 disabled={isDisabled}
                 value={user.currentPassword || ''}
-                onChange={() => handleUserChange}
+                onChange={handleUserChange}
               />
               <label>New password</label>
               <input
                 id="newPassword"
+                type="password"
                 className={styles.password}
                 disabled={isDisabled}
                 value={user.newPassword || ''}
@@ -167,16 +166,14 @@ export default function Profile() {
                     Update
                   </button>
                   :
-                  <ClipLoader
-                    css="margin-top: 2rem;"
-                    color="#fca311"
-                    loading={isLoading}
-                  />
+                  <div className={styles.loadButton}>
+                    <ClipLoader
+                      color="#fca311"
+                      loading={isLoading}
+                    />
+                  </div>
                 }
               </div>
-            </div>
-            <div className={styles.inputGroup}>
-              <h2>My articles</h2>
             </div>
             <button id={styles.logout} onClick={openModal}>Logout</button>
             <ReactModal
