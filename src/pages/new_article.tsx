@@ -134,6 +134,7 @@ const NewArticle: NextPage = () => {
   }
 
   const handleStepTwoClick = async () => {
+    console.log(articleId);
     const formData = new FormData();
     if (!image) {
       return setImageErrorMessage('An image must be submitted');

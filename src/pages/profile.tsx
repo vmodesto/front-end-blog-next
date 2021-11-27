@@ -184,7 +184,7 @@ export default function Profile() {
           >
             <h3>Are you sure?</h3>
             <div>
-              <button onClick={() => { setUserData(null); router.push('/') }}>Yes</button>
+              <button onClick={() => { router.push('/'); setUserData(null); }}>Yes</button>
               <button onClick={() => closeModal()}>No</button>
             </div>
           </ReactModal>

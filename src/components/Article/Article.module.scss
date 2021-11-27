@@ -2,7 +2,7 @@ $postImageWidth: 250px;
 $postImageHeight: 150px;
 
 .container {
-  width: 600px;
+  width: 700px;
   padding-bottom: 1rem;
   border-bottom: 1px rgba($color: #ced4da, $alpha: 0.6) solid;
   display: flex;
@@ -58,6 +58,8 @@ $postImageHeight: 150px;
         margin: 0;
       }
       p {
+        margin: 0;
+        margin-top: 10px;
         opacity: 0.6;
         font-weight: 500;
       }
